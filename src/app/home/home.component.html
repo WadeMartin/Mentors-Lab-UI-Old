@@ -1,0 +1,114 @@
+<div class="wrapper">
+    <div class="page-header section-dark" style="background-image: url('assets/img/cityNight.jpg'); backg">
+        <div class="filter"></div>
+        <div class="content-center">
+            <div class="container">
+                <div class="title-brand">                   
+                        <img src="assets/img/logo.png" width="600" height="100" alt="">
+                </div>
+            </div>
+            <br />
+            <br />
+            <div class="container">
+                    <div class="row">
+                            <div class="col-md-10">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-success" [(ngModel)]="searchParamter" placeholder="Type a startup name or category">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                        <a href="" class="btn btn-outline-danger btn-round" routerLink="/search/{{searchParamter}}" (click)="search()" >Search</a>
+                                </div>
+                                
+                    </div>
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        
+        <div class="card section section-dark section-nucleo-icons">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="title">Mentors' Labs</h2><br/>
+                        <p class="description">
+                            The “Mentors' Lab” was developed by Tell NP Advisers, an innovative outplacement company based in Geneva, Switerland. 
+                            Our goal is to allow start-ups to showcase their businesses and for mentors to propose their help to these start-ups! Mentor a start-up! Your start-up can be based anywhere in the world, our mentors can also be located everywhere in the world! Mentors agrees to give time “pro-bono” (for free) to start-ups in need for help in specific areas: Marketing, Communication, Sales, Finance, Admin, Supply Chain, Purchasing, Fundraising, Digital, Strategy and other fiels for short terms periods (from 2 to 6 hours a week, as long as they want)... 
+                            For a mutual benefit, our mentors can showcase these new experiences on their professional networks and CVs. 
+                            
+                            Invite new startups and mentors to join this amazing journey!
+                             
+                                
+                        </p><br/>                      
+                        <!-- <a href="" class="btn btn-outline-danger btn-round" target="_blank">Read more about us</a> -->
+                    </div>
+
+             
+                </div>
+            </div>
+        </div>
+        <div class="section section-dark">
+        <div class="container">
+                <div class="row">
+                    <div class="col-md-4 col-sm-8">
+                        <div class="pricingTable">
+                            <div class="pricingTable-header">
+                                <span class="price-value">5<span class="currency">$</span></span>
+                                <h3 class="title">Starter Plan</h3>
+                            </div>
+                            <ul class="pricing-content">
+                                <li>Introduction of your startup</li>
+                                <li>Profile allocation for 2 team mates</li>
+                                <li>Request for 2 skills</li>
+                                <li>Rate mentors and be rated by mentors</li>
+                                <li>-</li>
+                                <li>-</li>
+                                <li>-</li>
+                                <li>-</li>
+                            </ul>
+                            <a href="#" class="pricingTable-signup" routerLink="/sign-up-startup">Sign Up</a>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-8">
+                            <div class="pricingTable green">
+                                <div class="pricingTable-header">
+                                    <span class="price-value">20<span class="currency">$</span></span>
+                                    <h3 class="title">Seed Plan</h3>
+                                </div>
+                                <ul class="pricing-content">
+                                <li>Introduction of your startup</li>
+                                <li>Profile allocation for 4 team mates</li>
+                                <li>Request for 4 skills</li>
+                                <li>Upload 2 medias (1 video + 1 photo)</li>
+                                <li>Rate mentors and be rated by mentors</li>
+                                <li>-</li>
+                                <li>-</li>
+                                <li>-</li>
+                                </ul>
+                                <a href="#" class="pricingTable-signup" routerLink="/sign-up-startup">Sign Up</a>
+                            </div>
+                    </div>
+                    <div class="col-md-4 col-sm-8">
+                        <div class="pricingTable red">
+                            <div class="pricingTable-header">
+                                <span class="price-value">50<span class="currency">$</span></span>
+                                <h3 class="title">Growing Plan</h3>
+                            </div>
+                            <ul class="pricing-content">
+                                    <li>Introduction of your startup</li>
+                                    <li>Profile allocation for 6 team mates</li>
+                                    <li>Request for 6 skills</li>
+                                    <li>Upload 6 medias (2 video + 4 photo)</li>
+                                    <li>Startup statistics (visits, followers, clicked links)</li>
+                                    <li>Don't wait for mentors to contact you! Contact them directly!</li>
+                            </ul>
+                            <a href="#" class="pricingTable-signup"  routerLink="/sign-up-startup">Sign Up</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    </div>
+</div>
+

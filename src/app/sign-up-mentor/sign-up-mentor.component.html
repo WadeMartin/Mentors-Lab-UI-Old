@@ -1,0 +1,29 @@
+<div class="page-header" data-parallax="true" style="background-image: url('../assets/img/daniel-olahh.jpg');">
+  <div class="filter"></div>
+  <div class="container">
+      
+    <div class="row">
+      <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
+       
+          
+        <div class="card card-register" style="background: none">
+          <h3 class="title"><b>Sign-up as a Mentor</b></h3>
+          <div *ngIf="!isFormValid">
+              <p-messages severity="error" [(value)]="usernameError" ></p-messages>
+          </div>
+
+          <form #form="ngForm" class="register-form">
+            <label>E-mail</label>          
+            <input type="text"  class="form-control"  placeholder="E-Mail" [(ngModel)]="Email" name="something">
+            <label>Username</label>
+            <input type="text" class="form-control"  placeholder="Username" [(ngModel)]="Username" name="something">
+            
+            <label>Password</label>
+            <input type="password" class="form-control"  placeholder="Password" [(ngModel)]="Password" name="something2">
+            <button class="btn btn-danger btn-block btn-round" (click)="login()"><i class="{{icon}}"></i>Register</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

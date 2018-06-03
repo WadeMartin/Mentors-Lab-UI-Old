@@ -1,0 +1,196 @@
+<app-sidebar></app-sidebar>
+<br />
+<br />
+<p-growl [(value)]="msgs"></p-growl>
+<div class="container" *ngIf="!doneLoading"  align="center">
+    <p-progressSpinner></p-progressSpinner>
+    <h3>Loading Data ...</h3>
+</div>
+<!-- used to show a progress circle incase loading takes to long to complete -->
+<div class="row"  *ngIf="doneLoading">
+    <div class="col-xs-3 col-md-1">
+    </div>
+    <div class="col-xs-7 col-md-11">
+        <h3 align="center">Your Team!</h3>
+        <p-dataView #dv [value]="userProfiles" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="expertises" [sortField]="sortField"
+            [sortOrder]="sortOrder">
+            <p-header>
+                <div class="ui-helper-clearfix">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4">
+                            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By" (onChange)="onSortChange($event)" [autoWidth]="false"
+                                [style]="{'min-width':'15em'}"></p-dropdown>
+                        </div>
+                        <div class="ui-g-6 ui-md-4 filter-container">
+                            <div style="position:relative">
+                                <input type="search" pInputText placeholder="Search by expertises" (keyup)="dv.filter($event.target.value)">
+                            </div>
+                        </div>
+                        <div class="ui-g-6 ui-md-4" style="text-align:right">
+                            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                        </div>
+                    </div>
+                </div>
+            </p-header>
+            <ng-template let-user pTemplate="listItem">
+                <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+                    <div class="ui-g-12 ui-md-3" style="text-align:center">
+                        <img src="{{user.profilePicLoc}}" style="width: 100px; height: 100px">
+                    </div>
+                    <div class="ui-g-10 ui-md-5 car-details">
+                        <div class="ui-g">
+                            <div class="ui-g-2 ui-sm-6">Username: </div>
+                            <div class="ui-g-10 ui-sm-6">
+                                <b>{{user.username}}</b>
+                            </div>
+
+                            <div class="ui-g-2 ui-sm-6">First Name: </div>
+                            <div class="ui-g-10 ui-sm-6">
+                                <b>{{user.firstName}}</b>
+                            </div>
+
+                            <div class="ui-g-2 ui-sm-6">Last Name: </div>
+                            <div class="ui-g-10 ui-sm-6">
+                                <b>{{user.lastName}}</b>
+                            </div>
+
+                            <div class="ui-g-2 ui-sm-6">Title: </div>
+                            <div class="ui-g-10 ui-sm-6">
+                                <b>{{user.title}}</b>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" label="Rate Member" class="ui-button-success" icon="fa fa-star" (click)="selectRating($event, user)"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" label="Report Member" class="ui-button-warning" icon="fa fa-flag" (click)="selectReport($event, user)"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" label="Remove Member" class="ui-button-danger" icon="fa fa-minus-circle" (click)="selectRemove($event, user)"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1 search-icon">
+                        <button pButton type="button" label="Member Info" icon="fa-search" (click)="selectCar($event, user)"></button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template let-user pTemplate="gridItem">
+                <div style="padding:.5em" class="ui-g-12 ui-md-3">
+                    <p-panel [header]="user.username" [style]="{'text-align':'center'}">
+                        <img src="{{user.profilePicLoc}}" style="width: 80px; height: 80px">
+                        <div class="car-detail">{{user.firstName}} - {{user.title}}</div>
+                        <hr class="ui-widget-content" style="border-top:0">
+                        <button pButton type="button" class="ui-button-success" icon="fa fa-star"(click)="selectRating($event, user)" style="margin-top:0"></button>
+                        <button pButton type="button" class="ui-button-warning" icon="fa fa-flag"(click)="selectReport($event, user)" style="margin-top:0"></button>
+                        <button pButton type="button" class="ui-button-danger" icon="fa fa-minus-circle" (click)="selectRemove($event, user)" style="margin-top:0"></button>
+                        <button pButton type="button" icon="fa-search" (click)="selectCar($event, user)" style="margin-top:0"></button>
+                    </p-panel>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </div>
+</div>
+
+<p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="400"
+    (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedUser">
+        <div class="ui-g-12" style="text-align:center">
+            <img src="{{selectedUser.profilePicLoc}}" style="width: 200px; height: 200px">
+        </div>
+        <div class="ui-g-5">Username: </div>
+        <div class="ui-g-7">
+            <b>{{selectedUser.username}}</b>
+        </div>
+
+        <div class="ui-g-5">First Name: </div>
+        <div class="ui-g-7">
+            <b>{{selectedUser.firstName}}</b>
+        </div>
+
+        <div class="ui-g-5">Last Name: </div>
+        <div class="ui-g-7">
+            <b>{{selectedUser.lastName}}</b>
+        </div>
+
+        <div class="ui-g-5">Current Employer: </div>
+        <div class="ui-g-7">
+            <b>{{selectedUser.currentEmployer}}</b>
+        </div>
+
+        <div class="ui-g-5">Title: </div>
+        <div class="ui-g-7">
+            <b>{{selectedUser.title}}</b>
+        </div>
+        <div class="ui-g-5">Description: </div>
+        <div class="ui-g-7">
+            <b>{{selectedUser.description}}</b>
+        </div>
+        <div class="ui-g-5">Expertises: </div>
+        <div class="ui-g-7">
+            <b>{{selectedUser.expertises}}</b>
+        </div>
+        <div class="ui-g-5">CV Document: </div>
+        <div class="ui-g-7">
+            <button class="btn btn-success" (click)="downloadCV($event)">Download CV</button>
+        </div>
+    </div>
+</p-dialog>
+
+   <!-- reports -->
+<p-dialog header="Report Information" [(visible)]="reportDialog" [responsive]="true" showEffect="fade" [modal]="true" width="600"
+    (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedUser">
+        <div class="ui-g-7">Reason for reporting: </div>
+        <div class="ui-g-12">
+            <textarea rows="5" cols="75" [(ngModel)]="reportReason" pInputTextarea autoResize="autoResize">{{reportReason}}</textarea>
+        </div>
+        <div align="center" class="row">
+            <button class="btn btn-danger" (click)="reportUser($event,user)">Report</button>
+        </div>
+    </div>
+</p-dialog>
+
+
+   <!-- remove member -->
+   <p-dialog header="Verification" [(visible)]="removeDialog" [responsive]="true" showEffect="fade" [modal]="true" width="600"
+   (onAfterHide)="onDialogHide()">
+   <div class="ui-g" align="center" *ngIf="selectedUser">
+       <div class="ui-g-12">Are you sure you want to remove this member: </div>
+       <div class="ui-g-6">
+            <button class="btn btn-primary" (click)="cancelDialog($event,user)">Cancel</button>
+       </div>
+       <div class="ui-g-6">
+           <button class="btn btn-danger" (click)="removeUser($event,user)">Remove</button>
+       </div>
+   </div>
+</p-dialog>
+
+<!-- rate the user -->
+<p-dialog header="Rate this User!" [(visible)]="ratingDialog" [responsive]="true" showEffect="fade" [modal]="true" width="600"
+    (onAfterHide)="onDialogHide()">
+    <div class="ui-g"  *ngIf="selectedUser">
+            <div class="ui-g-12" style="text-align:center">
+                    <img src="{{selectedUser.profilePicLoc}}" style="width: 150px; height: 150px">
+            </div>
+            <div class="ui-g-12" style="text-align:center">
+                <h4>{{selectedUser.username}}</h4>
+            </div>
+            <hr >
+            <br />
+        <div class="ui-g-4">Rating for user: </div>
+        <div class="ui-g-8">
+                <p-spinner size="30" required [(ngModel)]="rateValue" [min]="1" [max]="5"></p-spinner>
+        </div>
+        <div class="ui-g-4">Comment: </div>
+        <div class="ui-g-12">
+                <textarea rows="5" cols="75"  [(ngModel)]="reportReason" required pInputTextarea autoResize="autoResize">{{reportReason}}</textarea>
+        </div>
+        <div class="ui-g-4"></div>
+        <div class="ui-g-6">
+                <button class="btn btn-success" (click)="rateUser($event,user)">Submit Rating</button>
+        </div>
+    </div>
+</p-dialog>

@@ -1,0 +1,132 @@
+<app-sidebar></app-sidebar>
+<br />
+<br />
+<div *ngIf="!doneLoading"  align="center">
+  <p-progressSpinner></p-progressSpinner>
+  <h3>Processing Action ...</h3>
+</div>
+<p-growl [(value)]="msgs"></p-growl>
+<input type="file" 
+  #file 
+  [multiple]="(maxFiles > 1)"
+  (change) = "onFileChange($event)"
+  style="display:none" />
+<br />
+
+<div *ngIf="doneLoading" class="row">
+    <div class="col-md-12 col-lg-12" align="center">
+        <p-messages [(value)]="checkMsg"></p-messages> 
+      <h3 align="center" style="color:blue" >Start Up Details:</h3>
+      <br />
+      <div class="card-avatar"><a href="javascript:void(0)" (click)="file.click()" ><img alt="User Pic" [src]="imgURL" width="150px" height="150px" class="img-circle img-responsive"> Click on the image to add a Logo</a></div>
+    </div>
+  </div>
+
+<div *ngIf="doneLoading" class="row">
+    <div class="col-md-2 col-lg-2 " align="center"></div>
+
+    <div class=" col-md-9 col-lg-9 ">
+      <table class="table table-user-information">
+        <tbody>
+        <tr>
+          <td><h5>Company Name:</h5></td>
+          <td><input type="text" [(ngModel)]="companyName" class="form-control" placeholder="Default"></td>
+        </tr>
+        <tr>
+                <td><h5>Company Website URL:</h5></td>
+                <td><input type="text" [(ngModel)]="websiteURL" class="form-control" placeholder="Default"></td>
+              </tr>
+        <tr>
+          <td><h5>Location:</h5></td>
+          <td><input type="text" [(ngModel)]="location" class="form-control" placeholder="Default"></td>
+        </tr>
+        <tr>
+          <td><h5>Created Year:</h5></td>
+         
+          <td>  <p-calendar [(ngModel)]="createdYear"></p-calendar></td>
+        </tr>
+        <tr>
+          <td><h5>looking for Expertise:</h5></td>
+          <td><ng-multiselect-dropdown
+            [placeholder]="'Choose Expertise'"
+            [data]="dropdownList"
+            [(ngModel)]="selectedItems"
+            [settings]="dropdownSettings"
+        >
+        </ng-multiselect-dropdown></td>
+        </tr>
+        <tr>
+          <td><h5>Description:</h5></td>
+          <td> <textarea [(ngModel)]="description" name="Description"  placeholder="Description" style="width: 800px; height: 150px"></textarea></td>
+        </tr>
+<br />  
+        <h4 style="color:blue">Media section:</h4>
+        <tr>
+            <td><h5>Photo's:</h5></td>
+            <td><p-fileUpload [showUploadButton]="false" name="demo[]" customUpload="true" (onRemove)="myRemove($event)" (onSelect)="mySelect($event)" (uploadHandler)="myUploader($event)" 
+              multiple="multiple" accept="image/*" maxFileSize="1000000">     
+      </p-fileUpload></td>
+          </tr>
+          <tr>
+            <td><h5>Video Links:</h5></td>
+            <td>
+                <div *ngFor="let vid of videoLinks; let i = index; trackBy: customTrackBy">
+                <input type="text" [(ngModel)]="videoLinks[i]" class="form-control" placeholder="Video Link #{{i + 1}}">
+            </div></td>
+          </tr>
+          <br />
+          <tr>
+            
+            <td><h5>Media Links:</h5></td>
+            <td>
+                   
+                    <a href="https://instagram.com/"></a>
+                    <a href="https://plus.google.com/"></a>
+                    <a href="http://youtube.com"></a>
+                <div class="row">
+                        <div class="col-md-1 col-lg-1 "><img src="http://convertkit.com/images/social-icons/facebook.png" alt="Facebook" width="48" style="text-decoration: none; width: 48px;"></div>
+                        <div class="col-md-11 col-lg-11  ">
+                                <input type="text" [(ngModel)]="facebookLink"  class="form-control" placeholder="Facebook Link">
+                      </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-1 col-lg-1 "><img src="http://convertkit.com/images/social-icons/twitter.png" alt="Twitter" width="48" style="text-decoration: none; width: 48px;"></div>
+                        <div class="col-md-11 col-lg-11  ">
+                                <input type="text" [(ngModel)]="twitterLink" class="form-control" placeholder="Twitter Link">
+                      </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-1 col-lg-1 "><img src="http://convertkit.com/images/social-icons/instagram.png" alt="Instagram" width="48" style="text-decoration: none; width: 48px;"></div>
+                        <div class="col-md-11 col-lg-11  ">
+                                <input type="text" [(ngModel)]="instagramLink" class="form-control" placeholder="Instagram Link">
+                      </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-1 col-lg-1 "><img src="http://convertkit.com/images/social-icons/google-plus.png" alt="Google Plus" width="48" style="text-decoration: none; width: 48px;"></div>
+                        <div class="col-md-11 col-lg-11  ">
+                                <input type="text" [(ngModel)]="googlePlusLink" class="form-control" placeholder="Google Plus Link">
+                      </div>
+                </div>
+                <div class="row">
+                        <div class="col-md-1 col-lg-1 "><img src="http://convertkit.com/images/social-icons/youtube_alt.png" alt="YouTube" width="48" style="text-decoration: none; width: 48px;"></div>
+                        <div class="col-md-11 col-lg-11  ">
+                                <input type="text" class="form-control" [(ngModel)]="youtubeLink" placeholder="Youtube Link">
+                      </div>
+                </div>
+               
+            </td>
+        </tr>
+
+        </tbody>
+      </table>
+      <div align="center">
+            <a class="btn btn-primary"(click)="UpdateProfile($event)">Update startup details</a>
+      </div>
+
+      
+
+    </div>
+  </div>
+
+  <br />
+  

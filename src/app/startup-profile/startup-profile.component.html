@@ -1,0 +1,712 @@
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.12';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<br>
+<br>
+<p-growl [(value)]="msgs"></p-growl>
+<div *ngIf="!doneLoading"  align="center">
+    <p-progressSpinner></p-progressSpinner>
+    <h3>Loading Data ...</h3>
+</div>
+<div *ngIf="doneLoading" class="wrapper">
+  <div class="page-header page-header-xs" data-parallax="true" style="background-image: url('../assets/img/fabio-mangione.jpg');">
+    <div class="filter"></div>
+  </div>
+  <div class="section profile-content" *ngIf="company">
+    <div class="container">
+      <div class="owner">
+        <div class="name">
+          <h4 class="title">{{company.companyName}}<br /></h4>
+          <div class="row" fxLayout="row" fxLayoutAlign="center">
+            <button type="button" class="btn btn-info btn-round" style="margin-right: 10px" *ngFor="let field of company.field"><i class="fa fa-tag"></i> {{field}}</button>
+          </div>
+          <br />
+          <h6 class="description">{{company.description}}</h6>
+        </div>
+      </div>
+      <br>
+      <div fxLayout="row" fxLayoutAlign="center center" *ngIf="company.websiteUrl">
+<h4>Visit our website on {{company.websiteUrl}}:</h4>
+      </div>
+      <hr>
+      <div fxLayout="row" fxLayoutAlign="center center" >
+        
+        <button style="margin-right: 10px" class="btn btn-outline-success btn-round" disabled><i class="fa fa-mouse-pointer"></i> {{company.clicks}} Views</button>
+        <button style="margin-left: 10px"class="btn btn-outline-danger btn-round" disabled><i class="fa fa-eye"></i> {{followersCount}} Followers</button>  
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="nav-tabs-navigation">
+            <div class="nav-tabs-wrapper">
+              <ul id="tabs" class="nav nav-tabs" role="tablist">
+                <li class="nav-item">
+                  <a class="nav-link active" data-toggle="tab" href="#home" role="tab">Photos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#profile" role="tab">Videos</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" data-toggle="tab" href="#members" role="tab">Members</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div id="my-tab-content" class="tab-content text-center">
+            <div class="tab-pane active" id="home" role="tabpanel">
+
+                <ngx-carousel
+                [inputs]="carouselTile">
+           
+                      <ngx-tile NgxCarouselItem *ngFor="let Tile of carouselPhotoItems">
+                          <img [src]="Tile" class="img-responsive">
+                      </ngx-tile>
+           
+                    <button NgxCarouselPrev class='leftRs'>&lt;</button>
+                    <button NgxCarouselNext class='rightRs'>&gt;</button>
+              </ngx-carousel>
+
+            </div>
+            <div class="tab-pane" id="profile" role="tabpanel">
+
+                <ngx-carousel
+                [inputs]="carouselTile">
+           
+                      <ngx-tile NgxCarouselItem *ngFor="let vid of carouselVideoItems">
+                          <iframe width="560" height="315" [src]="vid" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                      </ngx-tile>
+           
+                    <button NgxCarouselPrev class='leftRs'>&lt;</button>
+                    <button NgxCarouselNext class='rightRs'>&gt;</button>
+              </ngx-carousel>
+
+
+            </div>
+            <div class="tab-pane" id="members" role="tabpanel">
+
+                <div class="section section-dark text-center">
+                    <div class="container">
+                        <h2 class="title">Meet our Team!</h2>
+                        <div class="col-md-12">
+                            <div *ngFor="let member of membersList">
+                            <div class="col-md-4" style="padding-left: 5px">
+                                <div class="card card-profile card-plain">
+                                    <div class="card-avatar">
+                                        <a href=""><img src="{{member.profilePicLoc}}" alt="..."></a>
+                                    </div>
+                                    <div class="card-block">
+                                        <a href="">
+                                            <div class="author">
+                                                <h4 class="card-title">{{member.firstName}} {{member.lastName}}</h4>
+                                              
+                                                    <h6 class="card-category">{{member.title}}</h6>
+                                                
+                                                
+                                            </div>
+                                        </a>
+                                        <p class="card-description text-center">
+                                        {{member.description}}
+                                        </p>
+                                    </div>
+                                   
+
+                              </div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+            <button pButton type="button" label="Follow" icon="glyphicon glyphicon-heart" style="font-size: 18px;" class="ui-button-success" (click)="follow($event)"></button>
+          <hr>
+          </div>
+          <br>
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <a href="company.medialLinks[0]" (click)="AddSocialMediaClick('Facebook')"><img src="http://convertkit.com/images/social-icons/facebook.png" alt="Facebook" width="48" style="text-decoration: none; width: 48px;"></a>
+                <a href="https://twitter.com/example?ref_src=twsrc%5Etfw" class="twitter-follow-button" data-show-count="false">Follow @example</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+                <a href="https://twitter.com/" (click)="AddSocialMediaClick('Twitter')"><img src="http://convertkit.com/images/social-icons/twitter.png" alt="Twitter" width="48" style="text-decoration: none; width: 48px;"></a>
+                <a href="https://instagram.com/" (click)="AddSocialMediaClick('Instagram')"><img src="http://convertkit.com/images/social-icons/instagram.png" alt="Instagram" width="48" style="text-decoration: none; width: 48px;"></a>
+                <a href="https://plus.google.com/" (click)="AddSocialMediaClick('Google Plus')"><img src="http://convertkit.com/images/social-icons/google-plus.png" alt="Google Plus" width="48" style="text-decoration: none; width: 48px;"></a>
+                <a href="http://youtube.com" (click)="AddSocialMediaClick('Youtube')"><img src="http://convertkit.com/images/social-icons/youtube_alt.png" alt="YouTube" width="48" style="text-decoration: none; width: 48px;"></a>
+                <a href="https://www.linkedin.com/" (click)="AddSocialMediaClick('Linkden')"><img src="../assets/img/media.png" alt="YouTube" width="48" style="text-decoration: none; width: 48px;"></a>
+                 </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div align="center">
+        <button pButton type="button" label="Propose Expertise for FREE!" icon="fa fa-comment" style="font-size: 18px;" class="ui-button-warning" (click)="selectPropose($event)"></button>
+       
+  </div>
+</div>
+<div *ngIf="doneLoading && showCaseRatings" class="section section-dark" >
+  <div class="row" fxLayout="row" fxLayoutAlign="center">
+    <div class="col-sm-3">
+      <div class="rating-block">
+        <h4>Average user rating</h4>
+        <h2 class="bold padding-bottom-7">{{avgRating}} <small>/ 5</small></h2>
+        <div class="row">
+        <div *ngIf="avgRating >= 1; else templateName">
+            <button type="button" class="btn btn-success btn-sm" aria-label="Left Align">
+                <span class="fa fa-star" aria-hidden="true"></span>
+              </button>
+        </div>
+        <div *ngIf="avgRating >= 2; else templateName">
+            <button type="button" class="btn btn-success btn-sm" aria-label="Left Align">
+                <span class="fa fa-star" aria-hidden="true"></span>
+              </button>
+        </div>
+        <div *ngIf="avgRating >= 3; else templateName">
+            <button type="button" class="btn btn-success btn-sm" aria-label="Left Align">
+                <span class="fa fa-star" aria-hidden="true"></span>
+              </button>
+        </div>
+        <div *ngIf="avgRating >= 4; else templateName">
+            <button type="button" class="btn btn-success btn-sm" aria-label="Left Align">
+                <span class="fa fa-star" aria-hidden="true"></span>
+              </button>
+        </div>
+        <div *ngIf="avgRating == 5; else templateName">
+            <button type="button" class="btn btn-success btn-sm" aria-label="Left Align">
+                <span class="fa fa-star" aria-hidden="true"></span>
+              </button>
+        </div>
+        
+        <ng-template #templateName>
+            <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                <span class="fa fa-star" aria-hidden="true"></span>
+              </button>
+        </ng-template>
+
+        </div>
+      
+        
+        
+      </div>
+    </div>
+    <div class="col-sm-3">
+      <h4>Rating breakdown</h4>
+      <div class="pull-left">
+        <div class="pull-left" style="width:35px; line-height:1;">
+          <div style="height:9px; margin:5px 0;">5 <span class="fa fa-star"></span></div>
+        </div>
+        <div class="pull-left" style="width:180px;">
+          <div class="progress" style="height:9px; margin:8px 0;">
+            <div class="progress-bar progress-bar-success" role="progressbar" [attr.aria-valuenow]="breakdown.fiveStarCount" aria-valuemin="0" [ngStyle]="fiveStarPercentages">
+              <span class="sr-only">80% Complete (danger)</span>
+            </div>
+          </div>
+        </div>
+        <div class="pull-right" style="margin-left:10px;">{{breakdown.fiveStarCount}}</div>
+      </div>
+      <div class="pull-left">
+        <div class="pull-left" style="width:35px; line-height:1;">
+          <div style="height:9px; margin:5px 0;">4 <span class="fa fa-star"></span></div>
+        </div>
+        <div class="pull-left" style="width:180px;">
+          <div class="progress" style="height:9px; margin:8px 0;">
+            <div class="progress-bar progress-bar-primary" role="progressbar" [attr.aria-valuenow]="breakdown.fourStarCount" aria-valuemin="0"  [ngStyle]="fourStarPercentages">
+              <span class="sr-only">80% Complete (danger)</span>
+            </div>
+          </div>
+        </div>
+        <div class="pull-right" style="margin-left:10px;">{{breakdown.fourStarCount}}</div>
+      </div>
+      <div class="pull-left">
+        <div class="pull-left" style="width:35px; line-height:1;">
+          <div style="height:9px; margin:5px 0;">3 <span class="fa fa-star"></span></div>
+        </div>
+        <div class="pull-left" style="width:180px;">
+          <div class="progress" style="height:9px; margin:8px 0;">
+            <div class="progress-bar progress-bar-info" role="progressbar" [attr.aria-valuenow]="breakdown.threeStarCount" aria-valuemin="0" aria-valuemax="100">
+              <span class="sr-only">80% Complete (danger)</span>
+            </div>
+          </div>
+        </div>
+        <div class="pull-right" style="margin-left:10px;">{{breakdown.threeStarCount}}</div>
+      </div>
+      <div class="pull-left">
+        <div class="pull-left" style="width:35px; line-height:1;">
+          <div style="height:9px; margin:5px 0;">2 <span class="fa fa-star"></span></div>
+        </div>
+        <div class="pull-left" style="width:180px;">
+          <div class="progress" style="height:9px; margin:8px 0;">
+            <div class="progress-bar progress-bar-warning" role="progressbar" [attr.aria-valuenow]="breakdown.twoStarCount" aria-valuemin="0"  [ngStyle]="twoStarPercentages">
+              <span class="sr-only">80% Complete (danger)</span>
+            </div>
+          </div>
+        </div>
+        <div class="pull-right" style="margin-left:10px;">{{breakdown.twoStarCount}}</div>
+      </div>
+      <div class="pull-left">
+        <div class="pull-left" style="width:35px; line-height:1;">
+          <div style="height:9px; margin:5px 0;">1 <span class="fa fa-star"></span></div>
+        </div>
+        <div class="pull-left" style="width:180px;">
+          <div class="progress" style="height:9px; margin:8px 0;">
+            <div class="progress-bar progress-bar-danger" role="progressbar" [attr.aria-valuenow]="breakdown.oneStarCount" aria-valuemin="0"  [ngStyle]="oneStarPercentages">
+              <span class="sr-only">80% Complete (danger)</span>
+            </div>
+          </div>
+        </div>
+        <div class="pull-right" style="margin-left:10px;">{{breakdown.oneStarCount}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="doneLoading && showCaseRatings" class="row" fxLayout="row" fxLayoutAlign="center">
+  <div class="col-sm-7">
+    <hr/>
+    <div class="review-block">
+           <div class="row" *ngFor="let rating of ratings">
+        <div class="col-sm-3">
+          <img src="{{rating.raterProfile}}" class="img-rounded" width="100px" height="100px">
+          <div class="review-block-name"><a href="#">{{rating.raterUsername}}</a></div>
+          <div class="review-block-date">{{rating.dateCreated | date:'yyyy/MM/dd'}}<br/>1 day ago</div>
+        </div>
+        <div class="col-sm-9">
+          <div class="review-block-rate">
+            <div class="row">
+                <div *ngIf="rating.rate >= 1; else templateName">
+                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                      </button>
+                </div>
+                <div *ngIf="rating.rate >= 2; else templateName">
+                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                      </button>
+                </div>
+                <div *ngIf="rating.rate >= 3; else templateName">
+                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                      </button>
+                </div>
+                <div *ngIf="rating.rate >= 4; else templateName">
+                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                      </button>
+                </div>
+                <div *ngIf="rating.rate == 5; else templateName">
+                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                      </button>
+                </div>
+                
+                <ng-template #templateName>
+                    <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                        <span class="fa fa-star" aria-hidden="true"></span>
+                      </button>
+                </ng-template>
+            </div>
+             
+           
+          </div>
+          <div class="review-block-description">{{rating.comment}}</div>
+        </div>
+        <hr/>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog header="Propose Expertise for FREE!" [(visible)]="proposeDialog" modal="modal" [responsive]="true" [width]="600" [minWidth]="200" [minY]="70">
+    <p-messages [(value)]="checkBoxMsg"></p-messages>    
+  <p-scrollPanel [style]="{width: '100%', height: '200px'}" styleClass="custombar1">
+
+      <div style="padding:1em;line-height:1.5"><p>
+            General Terms of Use of the www.mentorslab.co Website
+
+            About mentorslab.co
+            In accordance with the legal constraints, mentorslab.co agrees never to share your personal details with third parties.
+            Legal Notices
+            mentorslab.co is published by Tell NP Advisers, Thonon-les-Bains Succursale de Genève:
+            Tell NP Advisers / mentorslab.co
+            c/o Berdat & Cie
+            Rue du Cendrier, 24 – 1201 Geneva
+            Switzerland
+            Editorial Director: Mr. Guillaume Stollsteiner
+            mentorslab.co is operated by Tell NP Advisers, Thonon-les-Bains, Succursale de Genève
+            Tell NP Advisers / mentorslab.co
+            c/o Berdat & Cie
+            Rue du Cendrier, 24 – 1201 Geneva
+            Switzerland
+            If you have any questions, please contact the mentorslab.co support team:
+            •	* either by sending an email to contact@tell-np.com
+            •	* or by writing to us at the address above.
+            
+            
+            These General Terms of Use (hereinafter, the “Terms of Use”) govern the relations between:
+            
+            Tell NP Advisers Thonon-Les-Bains Succursale de Genève company, a corporation under Swiss law, with head offices located c/o Berdat & Cie, Rue du Cendrier 24, 1201 Geneva, Switzerland, which operates the “www. mentorslab.co” site,
+            
+            hereinafter “Tell NP Advisers”, "Tell NP Advisers",
+            
+            On the one hand,
+            
+            AND
+            
+            Users of the Website referenced as “www.mentorslab.co”, as self-identified upon the creation of their account on the aforementioned Site,
+            
+            hereinafter, jointly or singly, "the “Members”" or "the “Member”,",
+            
+            On the other hand.
+            Preamble	
+            Tell NP Advisers operates an Internet platform accessible at the http://www.mentorslab.co  address, through available technologies, and particularly through the use of a computer or mobile terminal, allowing Members to create and publish online, under certain conditions, their professional profiles, specifically to find professional opportunities, submitting job ads, sharing links with their network on other platforms, the above being directly related to their professional activities (hereinafter, "the “Site”).").
+            
+            To this end, the Site offers previously registered users a certain number of features, dedicated to the showcasing of start-ups, showcasing of their skills in order to help registered start-ups (hereinafter, "the “Service”)."). Most of these features are available free of charge; however, some of them, which are optional, are offered at a cost and are reserved to those members who have chosen to subscribe to those services (hereinafter, "the “Subscribers”)"). and thus accept the Terms of Service presented when registering for the subscription (hereinafter, "the “Subscription”).").
+            
+            Moreover, all Subscribers are ipso facto Members and therefore accept these Terms of Use. 
+            
+            By accessing the Site and registering prior to using it, as described in Article 1 hereunder, Members acknowledge that they meet the requirements to become Members, as defined in Article 1.1 hereunder, that they have read these Terms of Use, and that they agree to abide by them unreservedly; these Terms of Use consequently constitute a contractual agreement between each Member and Tell NP Advisers. (hereinafter, "the “Contract”)").
+            
+            Access to and the use of certain Site features may also be subjected to Special Terms of Sale and to Recommendations, which form part of this Contract, as well as to the Privacy Policy , which the Member commits to reading and complying with at all times. These Terms of Use, along with these other documents and the Service and Subscription Registration Forms, are hereinafter known, jointly and separately, as the "“Contractual Documents.”".
+            
+            Should a Member refuse to comply with any of the obligations and conditions contained in these Terms of Use or in any of the other Contractual Documents, he/she shall be invited not to access the Site nor to use it.
+            Article 1. Registration to the Service	
+            1.1. Membership	
+            To become a Member, the user must have reached the legal age of majority and/or have the capacity to enter into an agreement under the law, and to have accepted these Terms of Use unreservedly. 
+            
+            Considering the nature and finality of the Site and Service, he/she must also be acting as a professional, for the purposes of his/her professional activity, and commits to use the Site and Service solely for his/her professional needs. This is a vital and material condition of this Contract.
+            1.2. Mandatory registration prior to access to the Service	
+            To be able to use the Service, Members must first register by completing the Registration Form, accessible online at the Site (hereinafter, "the “Form”" or "“Registration Form”)."). By completing this Form, the Member acknowledges having read these Terms of Use and accepts abiding by them unreservedly. 
+            
+            By completing the Registration Form, the Member guarantees Tell NP Advisers he/she has provided exact, truthful, current and complete information concerning his/her identity professional activity and personal data. He/she specifically commits to provide an effective electronic address he/she owns. 
+            
+            If he/she is not acting on his/her own behalf, he/she guarantees he/she is acting on behalf of a physical or moral person who meets the above conditions, whom he/she legally represents or from whom he/she has been granted an explicit mandate to enter into an agreement with Tell NP Advisers, and who has allowed him/her to provide the information required to use the Service, under the conditions defined herein. 
+            
+            The Member commits to update all information concerning him/her regularly in his/her profile, to preserve their accurateness, in his/her own interest, considering the purpose of the Service. Each Member may, at any time, modify the data concerning him/her which he/she deems useful or necessary, by clicking on the “Edit” link accessible in the various sections of his/her profile, including those data concerning his/her registration data, through the “My Account” section accessible from his/her profile. 
+            
+            The Member is herby informed that Tell NP Advisers may verify Registration Forms completed over the Site and reserves the right to suspend the provision of the Service to any Member whose registration mode should violate these Terms of Use, under the conditions set forth in Article 6 hereunder. 
+            
+            Should a Member provide false, improper, expired or incomplete data, Tell NP Advisers reserves the right to suspend or terminate the Contract and his/her account, and to refuse him/her future access to all or part of the Service, under the conditions set forth in Article 6 hereunder. 
+            
+            Should a Member violate applicable laws, and particularly criminal laws, or those laws intended to protect third-party rights, or should his/her conduct harm a person’s interests, whosever this may be, including Tell NP Advisers or any company with a legal relation to Tell NP Advisers, or prejudice another Member’s use of the Service, Tell NP Advisers reserves the right to suspend or terminate the contract and his/her account, without prior notice, and to refuse him/her future access to all or part of the Service, under the conditions set forth in Article 6 hereunder. 
+            
+            Under no circumstance shall Tell NP Advisers be held liable by users or third parties for any error, omission, or inexactness which may arise in the information provided by a Member.
+            1.3. Member account and password	
+            The Member commits to create only one account for his/her profile.
+            
+            Each Member may receive, as part of the registration process, at the electronic address provided by him/her at the time of his/her registration, an e-mail for the purpose of activating his/her account. In this case, the Service will only be fully accessible once the Member has fully completed the activation process indicated in said email. 
+            
+            The login and password chosen by the Member at the time of the registration allows access to the Service. This data is confidential. 
+            
+            The Member is solely liable for any use which might be made of his/her login and password, and the sole guarantor of their confidentiality and of any use made of his/her account. 
+            
+            The Member shall inform Tell NP Advisers immediately of any unauthorised use of his/her account, and of any breach of the confidentiality and security of his/her identification means, by completing sending an email at contact@tell-np.com
+            
+            Should Tell NP Advisers have legitimate reasons to believe that the Service’s security has been violated or that the Service is being used improperly due to an unauthorised use of the Member's identification means, it may temporarily suspend the account, in order, among other points, to preserve the integrity of the Site and data, and, should it seem appropriate, require the modification of said identification means. Should the Member wish to modify his/her identification means, he/she need only to access the Site and modify his/her parameters under the “Preferences” section of his/her profile. 
+            
+            Should a third party have acquired his/her identification means through the Member’s error, the said Member shall bear sole liability for any use of these identification means and the use made of the Service as a consequence thereof. Under no circumstance shall Tell NP Advisers be held liable for any loss or damage resulting from a Member’s failure to comply with his/her obligations, as stated in this Article. 
+            
+            Tell NP Advisers reserves the right to deactivate the account of a Member after a period of total inactivity of said account equal to or greater than six (6) months. However, the Member may reactivate his/her account within thirty (30) days of said suspension. 
+            
+            However, the deactivation of a Member’s account may not occur as long as one or more Subscriptions remain in effect, subject to the stipulations of Article 6.2.2 hereunder. 
+            
+            In the event of a Member’s death, and upon production of the applicable support documents, the account will be deactivated. Its contents shall only be forwarded to the Member’s beneficiaries following a court ruling.
+            1.4. Introducing new members to mentorslab.co	
+            Should a Member wish to invite and introduce a person so that the latter may use the Service, he/she shall provide Tell NP Advisers with the full name (last and first) and electronic address of said person. He/she shall previously have obtained this person’s consent to the communication of his/her personal data to Tell NP Advisers and to the use of said data by the latter in the invitation and introduction process of mentorslab.co. Tell NP Advisers does not store such data if said person does not register with the Site.
+            Article 2. Use of mentorslab.co	
+            Subject to compliance with the registration conditions set forth in Article 1 and the minimum required technical configuration set forth in Article 8, Members may use the Site’s free functionalities. 
+            
+            Members may also take one or more of the Subscriptions offered by Tell NP Advisers. 
+            
+            The price of the Subscriptions may be consulted on line on the Site, within the Subscription Page pertaining to each Subscription, as well as upon request to Tell NP Advisers, sent to Tell NP Advisers Thonon Les Bains, Succursale de Genève, c/o Berdat & Cie, Rue du Cendrier 24, 1201 Geneva, Switzerland. 
+            
+            Functionalities offered as part of the various Subscriptions, as well as prices, are mentioned in each Subscription Page. 
+            
+            Generally, Members shall refrain, when using the Site, from committing acts of whatever nature, such as the issue, publication, uploading or distribution of data and/or contents which are against the law, undermine the public order, or violate the rights of Tell NP Advisers or of third parties. 
+            
+            Specifically, when using the Site, Members shall abide by the Site’s rules, which include but are not limited to the following: 
+            
+            · Communicating exact information upon their registration and when using the Site; 
+            · Not using false identities intended to deceive others; 
+            · Abiding by applicable laws and respecting the rights of others, and complying with these contractual stipulations; 
+            Using the Site in a legitimate manner, exclusively in accordance with its professional purpose, and in accordance with the applicable legal and regulatory provisions and with current practices; 
+            Respecting the intellectual property rights pertaining to the contents provided by Tell NP Advisers and by other Members, as well as the property intellectual rights of third parties; therefore, each Member shall refrain from reproducing and/or communicating to the general public, through the Site, one or more contents without the authorization of the holders of the rights to said pertaining contents, when such authorization is required; 
+            Not diverting or attempting to divert any of the Site’s functionalities from its normal use, as defined herein; 
+            Not overloading the Service in any manner whatsoever. Specifically, Members shall refrain from downloading more than 2,000 pages (or 2,000 “GET”) from the mentorslab.co site in a single day without Tell NP Advisers’ prior written authorisation; 
+            Not using a robot software or any equivalent automated process or tool when browsing the Site or using the Service; 
+            Committing to communicate to Tell NP Advisers and to other Members only information the distribution of which, in their opinion, shall under no circumstance harm themselves, other Members, Tell NP Advisers, or third parties; 
+            Refraining from distributing information or contents which do not conform to reality; 
+            Not distributing data, information or contents of a slanderous, insulting, obscene, offending, violent character or violence-inciting nature, or of a political, racist or xenophobic nature, and generally, any contents which might be contrary to applicable laws and regulations or to public decency; 
+            Not distributing data, information or contents intended to reduce, disorganise or hinder the normal use of the Site, or to interrupt and/or slow down the normal flow of communications between Members; 
+            Not using the Service for mass-mailings of unsolicited messages (advertising or other); 
+            Not collecting information regarding third parties, including electronic addresses, to be used to send commercial or equivalent solicitations, or to be integrated within a referencing or equivalent service, whether free or against payment, or to be used in the conduct of a competition watch; 
+            Not using the Service, whether directly or indirectly, to implement practices assimilated to “pyramid” sales or services, or any other similar process, particularly those consisting in offering goods to the public and enticing them to expect to receive these free of charge or in exchange of remuneration which is lower than their real value, and conditioning the goods’ obtainment to the selling of tickets or other such instruments to third parties or to the gathering of subscription or registration of new purchasers; 
+            Not offering to a third party to gather memberships or to subscribe to a list by demanding from said person the remittance of any remuneration and by enticing her to expect financial gains resulting from an increase in the number of people recruited or registered rather than from the sale, provision or consumption of goods or services; 
+            Refraining from participating, whether directly or indirectly, in setting up or developing a network seeking to implement practices assimilated to network sales (Multi-Level Marketing - MLM), the recruitment of members, affiliated members or Independent Home Salespersons (VDI), 
+            to constitute such a network or other similar practices. 
+            - To not directly or indirectly promote one of mentorslab.co’s competitors or a service offering hiring solutions. 
+            
+            In case of a Member’s breach of one or more of these rules, Tell NP Advisers reserves the right to suspend and/or terminate the Contract unilaterally, to block the said account(s) of the Member(s) involved, to delete the litigious messages automatically, to prevent the publication of all or part of the profile of the Member(s), and/or to block his/her/their access to all or part of the Service, whether temporarily or definitively, without compensation, as set forth in Article 6 hereunder. 
+            
+            Members may report any behaviour or content on the Site, which is evidently contrary to the aforementioned rules, describing it and its location on the Site, as specifically as possible, by sending an email to contact@tell-np.com Members are hereby informed, however, that any abusive description may itself be punished in accordance with the applicable regulation.
+            
+            Article 3. Communication and sharing spaces	
+            
+            Tell NP Advisers offer, on the Site, spaces for communication and sharing, classified under various sections, which are likely to evolve with the Site. 
+            
+            Members may upload data, information and, more generally, contents and exchange information as part of these spaces or on their profile, in strict compliance with the law and these Terms of Use. 
+            
+            However, should Tell NP Advisers be duly informed that obviously illicit contents were distributed on the Site, It may be forced to delete such contents without prior notification to the Member who provided said contents.
+            Article 4. Payment
+            Short version: You are responsible for any fees associated with your use of Mentors’ Lab. We are responsible for communicating those fees to you clearly and accurately, and letting you know well in advance if those prices change.
+            
+            1. Pricing
+            Our pricing and payment terms are available on our pricing page. If you agree to a subscription price, that will remain your price for the duration of the payment term; however, prices are subject to change at the end of a payment term.
+            
+            2. Upgrades, Downgrades, and Changes
+            •	We will immediately bill you when you upgrade from the free plan to any paying plan.
+            •	If you change from a monthly billing plan to a yearly billing plan, Mentors’ Lab will bill you for a full year at the next monthly billing date.
+            •	If you upgrade to a higher level of service, we will bill you for the upgraded plan immediately.
+            •	You may change your level of service at any time by choosing a plan option or going into your Billing settings. If you choose to downgrade your account, you may lose access to Content, features, or capacity of your account. Please see our section on Cancellation for information on getting a copy of that Content.
+            
+            3. Billing Schedule; No Refunds
+            •	For monthly or yearly payment plans, the Service is billed in advance on a monthly or yearly basis respectively and is non-refundable. There will be no refunds or credits for partial months of service, downgrade refunds, or refunds for months unused with an open account; however, the service will remain active for the length of the paid billing period.
+            •	In order to treat everyone equally, no exceptions will be made.
+            
+            4. Authorization
+            By agreeing to these Terms, you are giving us permission to charge your on-file credit card, PayPal account, or other approved methods of payment for fees that you authorize for Mentors’ Lab.
+            
+            5. Responsibility for Payment
+            You are responsible for all fees, including taxes, associated with your use of the Service. By using the Service, you agree to pay Mentors’ Lab any charge incurred in connection with your use of the Service. If you dispute the matter, contact Mentors’ Lab Support (hello@mentorslab.co). You are responsible for providing us with a valid means of payment for paid accounts. Free accounts are not required to provide payment information.
+            Article 5. Cancellation and Termination
+            Short version: You may close your account at any time. If you do, we'll treat your information responsibly.
+            
+            1. Account Cancellation
+            It is your responsibility to properly cancel your account with Mentors’ Lab. You can cancel your account at any time by going into your Settings in the global navigation bar at the top of the screen. The Account screen provides a simple, no questions asked cancellation link. You can also ask us to cancel accounts in response to an email request.
+            
+            2. Upon Cancellation
+            We will retain and use your information as necessary to comply with our legal obligations, resolve disputes, and enforce our agreements, but barring legal requirements, we will delete your full profile and the Content of your account within 90 days of cancellation or termination (though some information may remain in encrypted backups). This information can not be recovered once your account is cancelled.
+            We will not delete Content that you have contributed to other Users' repositories or that other Users have forked.
+            Upon request, we will make a reasonable effort to provide an account owner with a copy of your lawful, non-infringing account contents after account cancellation, termination, or downgrade. You must make this request within 90 days of cancellation, termination, or downgrade.
+            
+            3. Mentors’ Lab May Terminate
+            Mentors’ Lab has the right to suspend or terminate your access to all or any part of the Website at any time, with or without cause, with or without notice, effective immediately. Mentors’ Lab reserves the right to refuse service to anyone for any reason at any time.
+            
+            4. Survival
+            All provisions of this Agreement which by their nature should survive termination will survive termination, including, without limitation, ownership provisions, warranty disclaimers, indemnity, and limitations of liability.
+            
+            Article 6. Communications with Mentors’ Lab
+            Short version: We use email and other electronic means to stay in touch with our users.
+            
+            1. Electronic Communication Required
+            For contractual purposes, you (1) consent to receive communications from us in an electronic form via the email address you have submitted or via the Service; and (2) agree that all Terms of Service, agreements, notices, disclosures, and other communications that we provide to you electronically satisfy any legal requirement that those communications would satisfy if they were on paper. This section does not affect your non-waivable rights.
+            
+            2. Legal Notice to Mentors’ Lab Must Be in Writing
+            Communications made through email or Mentors’ Lab Support's messaging system will not constitute legal notice to Mentors’ Lab or any of its officers, employees, agents or representatives in any situation where notice to Mentors’ LAb is required by contract or any law or regulation. Legal notice to Mentors’ Lab must be in writing by email at hello@mentorslab.co
+            
+            3. No Phone Support
+            Mentors’ Lab only offers support via email, in-Service communications, and electronic messages. We do not offer telephone support.
+            
+            Article 7. Disclaimer of Warranties
+            Short version: We provide our service as is, and we make no promises or guarantees about this service. Please read this section carefully; you should understand what to expect.
+            
+            Mentors’ Lab provides the Website and the Service “as is” and “as available,” without warranty of any kind. Without limiting this, we expressly disclaim all warranties, whether express, implied or statutory, regarding the Website and the Service including without limitation any warranty of merchantability, fitness for a particular purpose, title, security, accuracy and non-infringement.
+            Mentors’ Lab does not warrant that the Service will meet your requirements; that the Service will be uninterrupted, timely, secure, or error-free; that the information provided through the Service is accurate, reliable or correct; that any defects or errors will be corrected; that the Service will be available at any particular time or location; or that the Service is free of viruses or other harmful components. You assume full responsibility and risk of loss resulting from your downloading and/or use of files, information, content or other material obtained from the Service.
+            
+            Article 8. Limitation of Liability
+            Short version: We will not be liable for damages or losses arising from your use or inability to use the service or otherwise arising under this agreement. Please read this section carefully; it limits our obligations to you.
+            
+            You understand and agree that we will not be liable to you or any third party for any loss of profits, use, goodwill, or data, or for any incidental, indirect, special, consequential or exemplary damages, however arising, that result from
+            •	the use, disclosure, or display of your User-Generated Content;
+            •	your use or inability to use the Service;
+            •	any modification, price change, suspension or discontinuance of the Service;
+            •	the Service generally or the software or systems that make the Service available;
+            •	unauthorized access to or alterations of your transmissions or data;
+            •	statements or conduct of any third party on the Service;
+            •	any other user interactions that you input or receive through your use of the Service; or
+            •	any other matter relating to the Service.
+            Our liability is limited whether or not we have been informed of the possibility of such damages, and even if a remedy set forth in this Agreement is found to have failed of its essential purpose. We will have no liability for any failure or delay due to matters beyond our reasonable control.
+            
+            Artcile 9. Release and Indemnification
+            Short version: You are responsible for your use of the service. If you harm someone else or get into a dispute with someone else, we will not be involved.
+            
+            If you have a dispute with one or more Users, you agree to release Mentors’ Lab from any and all claims, demands and damages (actual and consequential) of every kind and nature, known and unknown, arising out of or in any way connected with such disputes.
+            You agree to indemnify us, defend us, and hold us harmless from and against any and all claims, liabilities, and expenses, including attorneys’ fees, arising out of your use of the Website and the Service, including but not limited to your violation of this Agreement, provided that Mentors’ Lab (1) promptly gives you written notice of the claim, demand, suit or proceeding; (2) gives you sole control of the defense and settlement of the claim, demand, suit or proceeding (provided that you may not settle any claim, demand, suit or proceeding unless the settlement unconditionally releases Mentors’ Lab of all liability); and (3) provides to you all reasonable assistance, at your expense.
+            
+            Article 10. Confidentiality and personal data
+              
+            Personal data concerning the Members are stored by Tell NP Advisers on its servers, to be processed as part of the use of the Service. 
+            
+            Tell NP Advisers processes Members’ personal data, which it has gathered in accordance with the “Safe Harbor Provisions” proposed by the Federal Trade Commission and by the European Union, to which it subscribes. 
+            
+            Tell NP Advisers invites Members to read its Privacy Policy. 
+            
+            All personal data provided by a Member when using the Site and Service are collected legally and fairly. Their purpose is the use of the Site and the provision of the Service, and they may therefore be used by Tell NP Advisers to this end. 
+            
+            Specifically, each Member is informed of the fact that the data concerning him/her may be used by Tell NP Advisers to offer him/her the opportunity of contacting other Members, selected in function of said data, which are not communicated to such Members, other than those accessible through the public profile, and are therefore used for this purpose exclusively by Tell NP Advisers. Each Member accepts this use of his/her data. 
+            
+            The Registration Form found on the Site allows the Member to subscribe to the Site and Service by revealing to Tell NP Advisers certain personal data concerning him/her. 
+            
+            The mandatory or optional nature of the communication of the requested data is mentioned on the Form for each field. Where the communication of the data is mandatory, failure to disclose it will result in the Member’s registration application not being processed. 
+            
+            Tell NP Advisers does not communicate the personnal data of Members to third parties, except for the data found on each Member's public profile, in accordance with the Member's determined parameterization and to the purpose of the Site and Service, and of those cases where the communication of such data is required by applicable laws, particularly at the request of the legal authorities. 
+            
+            Personal data communicated by the Member will be destroyed five years after his/her last connection to the Site or upon the expiration of the Contract, at his/her explicit request. 
+            
+            Members have the right to access, rectify and delete personal data concerning them and processed over the Site, and oppose their communication to third parties for justifiable cause. 
+            
+            Members may exercise these rights by writing to the following electronic address: contact@tell-np.com or to the following postal address: Tell NP Advisers, c/o Berdat & Cie, Rue du Cendrier 24, 1201 Geneva, Switzerland.  
+            
+            The Site uses “cookie” technology. Cookies are especially useful to facilitate the personalization of the Member’s access to the Service. Specifically, the Site contains a connection cookie allowing Members who so wish to access the Site repeatedly without having to identify themselves each time. To do so, the Member must tick the checkbox corresponding to “Keep me logged in”, found in the “Log in” window which appears when a new connection to the Site is made. By clicking it, Members activate this cookie, which lasts three months, and may thereafter access the Site repeatedly during this time without having to identify themselves. Members are hereby informed that, in this case, other users of their computers may access their profile’s management interface and account, since prior authentication is no longer required. 
+            
+            Generally, cookies are harmless to the Member’s computer. The Member may accept or refuse the cookies by configuring his/her browser. The cookies are anonymous and under no circumstance do they gather any personal data; the only data collected are for connection and statistical use. 
+            
+            Tell NP Advisers keeps track, through these cookies, of connections to the Site, and specifically of their origin. This use is made for statistical-analysis purposes, and the data are destroyed thereafter. 
+            
+            Tell NP Advisers takes the necessary precautions to ensure that personal data gathered through the Site are not lost, leaked, consulted, modified, or revealed to unauthorised third parties. 
+            
+            Members may access their personal data upon simple request by writing to the following electronic address:  contact@tell-np.com, or to the following postal address: Tell NP Advisers, c/o Berdat & Cie, Rue du Cendrier 24, 1201 Geneva, Switzerland. 
+            
+            However, this access may be refused where the law allows such a decision.
+            
+            Article 11. Intellectual Property	
+            Tell NP Advisers owns the Site, both its technical components and its graphic, textual or other components, subject to the sole reservation of those contents provided by the Members themselves and of third-party advertisement. More specifically, both the Site and the Service are provided through software and databases designed and developed by Tell NP Advisers, which belong to it, or over which it holds intellectual property rights. 
+            
+            The contents placed on line at the Site by Tell NP Advisers also belong to Tell NP Advisers, subject to the aforementioned reservations. Tell NP Advisers is therefore the sole holder of all intellectual property rights pertaining to the Service, the Site, its contents and the software and databases which ensure its operation, and use of the Site or Service does not grant any Member any right over any of these elements, subject to the rights pertaining to the contents provided by the Members themselves and to the advertisement provided by third parties (Cf. Article 5.2 hereunder). 
+            
+            Acceptance of these Terms of Use shall be deemed the Member’s acknowledgement of Tell NP Advisers’ aforementioned intellectual property rights and his/her commitment to respect them.
+            11.1. User’s license of the Site and Service	
+            Tell NP Advisers grants the Member a non-exclusive, personal and non-transferable license allowing him/her to use the Site and Service, as well as the data they contain, for his/her professional use, and for strictly personal purposes, as per these Terms of Use and, in particular, in accordance with the finality of the Site and Service (hereinafter, "the “License”).").
+            
+            Any other exploitation or use of the Site, the Service, their contents and, particularly, of the data they contain is excluded from the scope of this License and may only be made after obtainment of Tell NP Advisers’ prior and written authorization. 
+            
+            More specifically, any extraction or reuse, beyond the normal use of the Site, of the data contained on the Site and/or the Service is strictly forbidden to Members, and subject to Tell NP Advisers’ prior, written authorization.
+            11.2. User’s license regarding contents placed on line by Members	
+            To permit the provision of the Service and in accordance with the purpose of the Site, Members grant Tell NP Advisers a non-exclusive license to use the contents and data they include and/or place on line through the Site. 
+            
+            The Member guarantees Tell NP Advisers that such data, information or contents comply with the law and do not violate the rights of others. 
+            
+            Tell NP Advisers acquires no property right over the data, information and/or contents provided by Members. 
+            
+            By publishing his/her data, information and/or contents on the Site, each Member agrees to their display and availability to the other Members as well as to third parties over said Site, in accordance with the personal parameters registered by each Member in the “Preferences” section of his/her profile and his/her account. Therefore, each Member allows other Members to consult his/her personal data thus made available through his/her profile and to use them to contact him/her. He/she explicitly accepts this use of his/her profile, which goes to the very essence of the Site and Service. 
+            
+            Solely for the ends of providing the Service, Members allow Tell NP Advisers to reproduce, represent, adapt and translate the contents and data provided by them over the Site, under the conditions defined hereunder: 
+            
+            Tell NP Advisers is allowed to reproduce all or part of the contents provided by Members on any digital registration support, current or future, and specifically including, but not limited to, on any server, hard drive, whether removable or not, memory card, or any other equivalent support, in any format and using any process, whether currently known and unknown, so far as proves necessary for all storage, back-up, transmission or downloading operation entailed in the Site’s operation and the provision of the Service. 
+            
+            Tell NP Advisers is allowed to adapt and translate Members’ contents, as well as to reproduce these adaptations on any digital support, current or future, stipulated above, in order to provide the Service, particularly in different languages. This right includes the ability, subject to the respect of the Member’s moral right, to modify the formatting of his/her contents to bring them in line with the Site’s graphic charter and/or make it compatible with its technical performances or applicable formats, in view of their insertion and/or publication on the Site. 
+            
+            The purpose of this authorisation is to allow Tell NP advisers to distribute Members’ contents and data over digital networks and through any communication protocol, and particularly over the Internet, as well as to make them available to the public, in such a way that any person may access them from the location and at the time of his/her own choosing, through the Site, in accordance with the parameterization defined by each Member. 
+            
+            This license is granted for the entire world and for the duration of the Contract binding the Member to Tell NP Advisers. 
+            
+            Should a manifest violation of intellectual property rights be committed on the Site, the person interested in protecting his/her rights is invited to notify Tell NP Advisers of such a violation, as specifically as possible, by sending an email to contact@tell-np.com.
+            
+            Article 12. Term and Termination
+              
+            12.1. Term	
+            The Contract is agreed to for an indeterminate term, starting from the Member’s acceptance of these Terms of Use. 
+            
+            Each Member may also subscribe to one or more paying Subscriptions offered by Tell NP Advisers and mentioned on the Site, known as “PREMIUM” Subscriptions, for the term corresponding to each Subscription fixed in the corresponding Subscription Page, starting from his/her acceptance of other specific terms of sales of the chosen subscription, subject to any special stipulation contained in the aforementioned Conditions.
+            12.2. Termination	
+            Tell NP Advisers may ipso facto suspend access to the Site and Service immediately, in case of the Member’s noncompliance with these Terms of Use. In this case, Tell NP Advisers must notify the Member of this suspension by e-mail, and warn him/her to cease and desist from said violation. Should such notification remain unanswered for eight (8) days, Tell NP Advisers may terminate the Contract ipso facto, without any formality and subject to any damages it might claim as compensation for any prejudice it might suffer as a result of this situation; because of its cause (the Member’s breach), this termination shall entail no repayment of any sums the Member might already have paid for any Subscriptions he/she might have subscribed to. 
+            
+            Furthermore, it is reiterated that, in the event of a manifest violation of the applicable regulation or obligations by the Member, particularly those stipulated in Article 2 hereof, consisting, among others, in the use of the Site for spamming or MLM purposes, in the use of a Subscription for recruitment purposes, or for the distribution of a message, data or information contrary to public order or likely to undermine the rights of a third party (slander, insults, breach of intellectual property rights, denigration, etc.), of any kind whatsoever, Tell NP Advisers may suspend access to the contents in question and/or delete the account of the Member and terminate the Contract, without prior notification. 
+            
+            The Member may terminate the Contract at any time, by accessing the Site and following the procedure defined for this purpose, subject to the specific stipulations of other terms of sales 
+            12.2.1. Deleting account from the Site	
+            Members may delete their accounts from the Site at any time by following the procedure set forth for this purpose and described hereunder: 
+            
+            1. Log on to the Site and enter your electronic address to log in to your account;
+            2. Click the "My profile" tab;
+            3. Click "My Details" in the "My Account" box on the right hand side of the page;
+            4. Click "Delete my account" on the right hand side of the page;
+            5. Confirm the deletion of your profile.
+            
+            Should the Member have subscribed to one or more paying Subscriptions, the termination will be effective under the conditions set forth in Article 6.2.2 below. 
+            
+            Within forty-eight hours following this unregistering, which entails the termination of the Contract, all data concerning the Member will be erased from Tell NP Advisers’ databases and the Member will no longer be granted access to the Site or Service.
+            12.2.2. Cancelling Subscriptions	
+            At the end of the initial term of a Subscription Plan, the Subscription will be automatically renewed for the term fixed by the initial Subscription Plan, apart from an agreement to the contrary by the Subscriber expressed via the system provided for this under the ‘Your membership status’ section on the Site. 
+            
+            Members may terminate at any time the Subscription(s) Plan(s) to which they have subscribed by following the unsubscribing procedure described in each specific Terms of Sales. 
+            Article 13. Liability	
+            Article 13.1 Member's liability	
+            The Member shall bear all costs related to the hardware and software needed to access the Site and use the Service. It is the Member’s responsibility to take all suitable precautions to protect his/her own data, computer systems and/or software from any contamination by possible viruses. 
+            
+            The Member bears sole liability for the use of the information, messages or data of any kind available through the Service, and under no circumstance may any party other than the Member be held liable for any decision made or action taken by the Member on the basis of this information. Specifically, the Member shall bear sole liability for his/her decision to subscribe to any of the Subscriptions offered by Tell NP Advisers. 
+            
+            The Member shall bear sole liability for the use made of the Service and the Site, and, more generally, for any use or operation made from his/her account and profile. 
+            
+            The Member is responsible for all data and information concerning him/her which he/she has made available on line and for all contents provided by him/her, whether such data or contents are accessible and/or distributed to the public through one of the Site’s communication or exchange spaces or sent to any person by e-mail, or whether they are stored on his/its personal space within the Site. 
+            
+            The Member recognizes that Tell NP Advisers exercises no preliminary check of said contents and data and that it is under no general obligation to monitor the data and contents stored by Members and distributed over the Site. 
+            
+            The Member shall bear sole liability, with respect to Tell NP Advisers and, if applicable, to any third party, for any damages, whether direct or indirect, of any kind whatsoever, caused by any information or any other element of contents communicated, transmitted or distributed by the Member while using the Service, as well as by any breach of this Contract on his/her part. 
+            
+            The Member accepts to submit to any measure implemented by Tell NP Advisers in application of applicable laws.
+            13.2. Tell NP Advisers’ liability	
+            Tell NP Advisers commits to provide the Service in accordance with these Terms of Use. 
+            
+            TELL NP ADVISERS DOES NOT VERIFY THE VERACITY OF THE INFORMATION PROVIDED BY MEMBERS AND REJECTS ANY LIABILITY RELATED TO THE INACCURACY, UNSUITABILITY OR ILLICITNESS OF SAID INFORMATION. 
+            
+            UNDER NO CIRCUMSTANCE SHALL TELL NP ADVISERS BE HELD LIABLE FOR THE DATA, INFORMATION AND/OR CONTENTS PROVIDED BY A MEMBER, WHETHER OR NOT THIS IS ACCESSIBLE TO THE PUBLIC, FOR THE LACK OF VERACITY OF SAID DATA, INFORMATION OR CONTENTS, FOR THE ERRORS OR OMISSIONS THEY MIGHT INCLUDE, OR FOR ANY DAMAGE RESULTING FROM THE USE OF ANY CONTENTS PROVIDED BY A MEMBER, DISPLAYED OR TRANSMITTED BY E-MAIL OR BY ANY MANNERS, THROUGH THE SITE. 
+            
+            TELL NP ADVISERS HAS NO GENERAL OBLIGATION TO MONITOR THE DATA AND CONTENTS PROVIDED BY MEMBERS, NOR ANY OBLIGATION TO DELETE CONTENTS WHICH MIGHT NOT APPEAR TO BE EVIDENTLY ILLICIT, REGARDLESS OF WHETHER OR NOT IT WAS NOTIFIED OF SAID CONTENTS. 
+            
+            UNDER NO CIRCUMSTANCES SHALL TELL NP ADVISERS BE HELD LIABLE FOR ANY CONSEQUENCE THAT MIGHT OCCUR IN THE COURSE OR UPON THE COMPLETION OF ANY MEETINGS HELD OR CONTACT MADE BETWEEN SEVERAL MEMBERS OR NON-MEMBERS AS A RESULT OF THE USE OF THE SITE AND SERVICE. 
+            
+            DUE TO THE SPECIAL NATURE OF THE INTERNET, ACCESS TO THE SITE MAY BE INTERRUPTED OR RESTRICTED AT ANY TIME DUE TO A REASON BEYOND TELL NP ADVISERS’ CONTROL; IN SUCH CASES, TELL NP ADVISERS MAY NOT BE HELD LIABLE. 
+            
+            NOR MAY TELL NP ADVISERS BE HELD LIABLE SHOULD ACCESS TO THE SITE BE INTERRUPTED DUE TO MAINTENANCE OPERATIONS, UPDATES OR TECHNICAL IMPROVEMENTS, OR DUE TO OPERATIONS INTENDED TO UPGRADE THE SITE’S CONTENTS AND/OR PRESENTATION, AS SUCH INTERRUPTIONS WILL BE NOTIFIED AND WILL NOT EXCEED COMMON RELEVANT PRACTICES. FURTHERMORE, TELL NP ADVISERS MAY INTERRUPT THE ACCESS TO THE SITE AND SERVICE, WHETHER TEMPORARILY OR DEFINITELY, PARTICULARLY IN CASE OF ITS TERMINATION OF THE ACTIVITY IN QUESTION, OR IN THE EVENT OF ANY COURT-ORDERED OR AMICABLE LIQUIDATION OF THE COMPANY; IN THESE LAST CASES, THIS CONTRACT SHALL BE TERMINATED IPSO FACTO. 
+            
+            TELL NP ADVISERS RESERVES THE RIGHT, AT ANY TIME AND WITHOUT PRIOR NOTICE, TO MODIFY ANY INFORMATION APPEARING ON THE SITE AS PART OF ITS UPDATE OR WHILE CORRECTING ERRORS OR INACCURACIES. 
+            
+            TELL NP ADVISERS IS NOT RESPONSIBLE FOR THE CONTENTS OF THIRD-PARTY INTERNET SITES TO WHICH HYPERTEXT LINKS FOUND ON THE SITE MAY REDIRECT. 
+            
+            TO THE EXTENT ALLOWED BY APPLICABLE LAWS, AND TO THE EXTENT THAT TELL NP ADVISERS MAY BE DEEMED LIABLE FOR ANY DAMAGE NOT LISTED ABOVE, TELL NP ADVISERS’ LIABILITY SHALL BE LIMITED TO SPECIFIC, ACTUAL AND DEFINED DAMAGES. 
+            
+            TO THE EXTENT ALLOWED BY APPLICABLE LAWS, UNDER NO CIRCUMSTANCE SHALL TELL NP ADVISERS OR ITS AFFILIATED COMPANIES, LICENSORS OR PARTNERS, BE HELD LIABLE FOR ANY INDIRECT DAMAGES, UNREALISED EARNINGS OR DAMAGES RESULTING FROM THE LOSS OF DATA, OR FOR ANY OPERATION LOSS RESULTING FROM THE USE OR IMPOSSIBILITY OF USING THE SITE, THE SERVICE OR THE CONTENTS, WHETHER ON THE BASIS OF A GUARANTEE, A CONTRACT, A CIVIL OFFENSE, OR UNDER ANY OTHER LEGAL THEORY, WHETHER TELL NP ADVISERS BE INFORMED OR NOT OF SUCH DAMAGES.
+            Article 14. Minimum Required Technical Configuration	
+            The Member acknowledges having the expertise and means required to access the Site and use it. Access to the Site and its use require the following minimum configuration: 
+            
+            - The Site is optimized for a screen resolution of 1024 X 768 pixels; 
+            
+            - For the following browsers: Internet Explorer 7 and higher, Firefox 3 and higher, and Safari 4 and higher; 
+            
+            - An Internet connection. 
+            
+            To this end, the Member acknowledges having verified that the computer configuration available to him/her is adequate, contains no virus, and is in proper operating conditions. 
+            
+            The Member shall bear the entire cost of the equipment (computer, cell phone, software, telecommunications means, etc.) allowing access the Site and Service, as well as all telecommunication expenses incurred by their use.
+            Article 15. Agreement on evidence	
+            The Member and Tell NP Advisers unanimously agree that Tell NP Advisers’ computer systems and files shall be self-evidencing between them. 
+            
+            Consequently, the computer files and records stored within the computer systems operated by Tell NP Advisers or on its behalf under reasonable security and reliability conditions may be used validly and produced as evidence of the execution of the Contract, and more generally of any event, communication or relation between both Parties in relation to the Member’s use of the Site. 
+            
+            Therefore, Tell NP Advisers may validly produce, as part of any proceeding, as evidence of any act, fact or omission, the data, files, programs, registrations or other elements, received, issued or stored using the aforementioned computer systems, on any digital or analogical supports, and rely thereon, except for evident errors.
+            Article 16. Modifications to the Terms of Use	
+            Tell NP Advisers may modify these Terms of Use at any time and without prior notice. The Member is therefore invited to consult the latest updated version thereof on a regular basis, freely available and permanently accessible from the homepage of the Site, by clicking on the “Conditions of use” link.
+            Modified General Terms of Use come into force from the moment they are published online and are legally applicable from then on.
+            Article 17. Applicable Law - Assignment of Jurisdiction	
+            The conclusion, interpretation and validity of these Terms of Use and of the Contract are governed by the Laws of the Geneva Courts, Switzerland. In the event of any discrepancy in their interpretation, the English (United States) version of these Terms of Use and of the Contract shall prevail over any other version in any other language . Subject to applicable public-order provisions regarding the assignment of jurisdictions, the courts corresponding to Tell NP Advisers’ head offices shall have sole jurisdiction regarding any litigation related to this Agreement, including but not limited to any litigation regarding their validity, interpretation, execution and/or termination and the consequences thereof. 
+          </p>     
+        </div>
+    </p-scrollPanel>
+    <hr>
+    <p-checkbox [(ngModel)]="agreementAccepted" binary="true"></p-checkbox><span> I agree to the <a>terms and conditions</a></span>
+        <p-footer>
+            <button type="button" pButton icon="fa-check" (click)="sendRequest()" label="Propose Expertise"></button>
+        </p-footer>
+</p-dialog>
+<p-dialog header="Required Login" [(visible)]="loginDisplay" modal="modal" [responsive]="true" [width]="350" [minWidth]="200" [minY]="70">
+  <span>Please note you need to login in order to follow this start-up</span>
+      <p-footer>
+          <button type="button" pButton icon="fa-close" (click)="loginDisplay=false" label="close"></button>
+      </p-footer>
+</p-dialog>

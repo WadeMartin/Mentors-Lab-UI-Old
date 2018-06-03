@@ -1,0 +1,135 @@
+<app-sidebar></app-sidebar>
+<br />
+<br />
+<p-growl [(value)]="msgs"></p-growl>
+<div class="container" *ngIf="!doneLoading"  align="center">
+    <p-progressSpinner></p-progressSpinner>
+    <h3>Loading Data ...</h3>
+</div>
+<!-- used to show a progress circle incase loading takes to long to complete -->
+<div class="row container"  *ngIf="doneLoading">
+    <div class="col-xs-3 col-md-1">
+    </div>
+    <div class="col-xs-9 col-md-11">
+        <h3 align="center">Members requesting to join your team!</h3>
+        <p-dataView #dv [value]="userProfiles" [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="expertises" [sortField]="sortField"
+            [sortOrder]="sortOrder">
+            <p-header>
+                <div class="ui-helper-clearfix">
+                    <div class="ui-g">
+                        <div class="ui-g-12 ui-md-4">
+                            <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By" (onChange)="onSortChange($event)" [autoWidth]="false"
+                                [style]="{'min-width':'15em'}"></p-dropdown>
+                        </div>
+                        <div class="ui-g-6 ui-md-4 filter-container">
+                            <div style="position:relative">
+                                <input type="search" pInputText placeholder="Search by expertises" (keyup)="dv.filter($event.target.value)">
+                            </div>
+                        </div>
+                        <div class="ui-g-6 ui-md-4" style="text-align:right">
+                            <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+                        </div>
+                    </div>
+                </div>
+            </p-header>
+            <ng-template let-user pTemplate="listItem">
+                <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+                    <div class="ui-g-12 ui-md-3" style="text-align:center">
+                        <img src="{{user.profilePicLoc}}" style="width: 100px; height: 100px">
+                    </div>
+                    <div class="ui-g-10 ui-md-6 car-details">
+                        <div class="ui-g">
+                            <div class="ui-g-2 ui-sm-6">Username: </div>
+                            <div class="ui-g-10 ui-sm-6">
+                                <b>{{user.username}}</b>
+                            </div>
+
+                            <div class="ui-g-2 ui-sm-6">First Name: </div>
+                            <div class="ui-g-10 ui-sm-6">
+                                <b>{{user.firstName}}</b>
+                            </div>
+
+                            <div class="ui-g-2 ui-sm-6">Last Name: </div>
+                            <div class="ui-g-10 ui-sm-6">
+                                <b>{{user.lastName}}</b>
+                            </div>
+
+                            <div class="ui-g-2 ui-sm-6">Title: </div>
+                            <div class="ui-g-10 ui-sm-6">
+                                <b>{{user.title}}</b>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                    <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" label="Approve Member" class="ui-button-success" icon="fa fa-plus-circle" (click)="addUser($event, user)"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1">
+                        <button pButton type="button" label="Reject Member" class="ui-button-danger" icon="fa fa-minus-circle" (click)="rejectUser($event, user)"></button>
+                    </div>
+                    <div class="ui-g-12 ui-md-1 search-icon">
+                        <button pButton type="button" label="More Info" icon="fa-search" (click)="selectCar($event, user)"></button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template let-user pTemplate="gridItem">
+                <div style="padding:.5em" class="ui-g-12 ui-md-3">
+                    <p-panel [header]="user.username" [style]="{'text-align':'center'}">
+                        <img src="{{user.profilePicLoc}}" style="width: 80px; height: 80px">
+                        <div class="car-detail">{{user.firstName}} - {{user.title}}</div>
+                        <hr class="ui-widget-content" style="border-top:0">
+                        <button pButton type="button" class="ui-button-success" icon="fa fa-plus-circle"(click)="addUser($event, user)" style="margin-top:0"></button>
+                        <button pButton type="button" class="ui-button-danger" icon="fa fa-minus-circle" (click)="rejectUser($event, user)" style="margin-top:0"></button>
+                        <button pButton type="button" icon="fa-search" (click)="selectCar($event, user)" style="margin-top:0"></button>
+                    </p-panel>
+                </div>
+            </ng-template>
+        </p-dataView>
+    </div>
+</div>
+
+<p-dialog header="User Details" [(visible)]="displayDialog" [responsive]="true" showEffect="fade" [modal]="true" width="400"
+    (onAfterHide)="onDialogHide()">
+    <div class="ui-g" *ngIf="selectedUser">
+        <div class="ui-g-12" style="text-align:center">
+            <img src="{{selectedUser.profilePicLoc}}" style="width: 200px; height: 200px">
+        </div>
+        <div class="ui-g-4">Username: </div>
+        <div class="ui-g-8">
+            <b>{{selectedUser.username}}</b>
+        </div>
+
+        <div class="ui-g-4">First Name: </div>
+        <div class="ui-g-8">
+            <b>{{selectedUser.firstName}}</b>
+        </div>
+
+        <div class="ui-g-4">Last Name: </div>
+        <div class="ui-g-8">
+            <b>{{selectedUser.lastName}}</b>
+        </div>
+        <div class="ui-g-4">Current Employer: </div>
+        <div class="ui-g-8">
+            <b>{{selectedUser.currentEmployer}}</b>
+        </div>
+
+        <div class="ui-g-4">Title: </div>
+        <div class="ui-g-8">
+            <b>{{selectedUser.title}}</b>
+        </div>
+        <div class="ui-g-4">Description: </div>
+        <div class="ui-g-8">
+            <b>{{selectedUser.description}}</b>
+        </div>
+        <div class="ui-g-4">Expertises: </div>
+        <div class="ui-g-8">
+            <b>{{selectedUser.expertises}}</b>
+        </div>
+        <div class="ui-g-4">CV Document: </div>
+        <div class="ui-g-8">
+            <button class="btn btn-success" (click)="downloadCV($event)">Download CV</button>
+        </div>
+    </div>
+</p-dialog>

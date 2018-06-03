@@ -1,0 +1,81 @@
+<head>
+    <!--core first + styles last-->
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  </head>
+
+
+<div class="section section-dark">
+        <div class="container">
+                
+        <div class="container text-center">
+            <div class="row">
+                <div class="col-md-8 ml-auto mr-auto text-center">
+                    <h2 class="title">Search for a Start-Up</h2>
+                    <div class="row">
+                            <div class="col-md-11">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control form-control-success" [(ngModel)]="searchParamter" placeholder="Type a startup name or category">
+                                       
+                                    </div>
+                    </div>
+                    <div class="col-md-1">
+                            <button class="btn btn-outline-danger btn-round" (click)="SearchForCompanies($event)">Search</button>
+                    </div>
+                </div>
+                </div>
+            </div>
+
+
+            
+        </div>
+    </div>
+    </div>
+    <div *ngIf="!doneLoading"  align="center">
+        <p-progressSpinner></p-progressSpinner>
+        <h3>Processing Action ...</h3>
+      </div>
+      <div *ngIf="doneLoading">
+
+
+
+
+    <div  *ngFor="let company of companies" align="center">
+
+            <div class="row" >
+                <div class="col-md-3">
+
+                </div>
+            <div class="col-md-6" align="center">
+                    <p-card title="" subtitle="" [style]="{width: '100%'}" styleClass="ui-card-shadow">
+                            <p-header>
+                                <!-- <img src="Card" height="100px" src=""> -->
+                                 <img src="{{company.logoLoc}}" style="height: 200px; width: 400px" > 
+                            </p-header>
+                            <div [style]="{ height: '400px'}">
+                                    <h3><b><u>{{company.companyName}}</u></b></h3>
+                                    <h4><b>Expertise Required:</b> {{company.field}}</h4>
+                                    <p><h4 style="font-size: 20px">{{company.description}}</h4>
+                            </div>
+                            
+                            <p-footer>
+                                <button pButton type="button" label="View More" routerLink="/start-up/{{company.companyName}}" icon="fa-check"></button>
+                            </p-footer>
+                        </p-card>
+            </div>
+            <div class="col-md-3">
+
+                </div>
+        </div>
+            <hr />
+            
+</div>
+
+
+<div *ngIf="!hasCompanies" class="alert alert-danger alert-dismissable page-alert"> 
+    <button type="button" class="close"><span aria-hidden="true">
+    </span><span class="sr-only">Close</span></button>
+        No Start-Up companies could be found, please search again.
+     </div>
+
+    </div>
+    

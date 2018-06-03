@@ -1,0 +1,302 @@
+<app-sidebar></app-sidebar>
+<br />
+<br />
+
+<!-- 
+<div class="container">
+        <div class="jumbotron">
+          <h2>This page is under Construction</h2> 
+          <p>This page will be released in the near future, keep a eye on it</p> 
+        </div>
+      </div> -->
+      
+      
+<div class="container" >
+        <!-- *ngIf="hasRatings" -->
+        
+              <div class="row">
+                    <div class="col-xs-12 col-md-6" style="border: 1px 1px 1px 1px solid black">
+                            <div *ngIf="!hasRecievedRatings" style="text-align:center" class="alert alert-warning">
+                                    <h3><strong>No Ratings Recieved found</strong></h3>
+                                    <br>
+                                    <h4>You have not recieved any ratings</h4>
+                                  </div>
+                            <div class="alert alert-success">
+                                    <h3 style="text-align: center; color: black"><strong>Ratings Recieved</strong></h3>
+                                  </div>
+                                  
+                            
+                            <p-dataScroller  [value]="ratings" [rows]="5" [inline]="true" scrollHeight="500px">
+                         
+                                    <ng-template let-rater pTemplate="item">
+                                        <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+                                            <div class="ui-g-12 ui-md-3" style="text-align:center">
+                                                <img src="{{rater.raterProfile}}" style="width: 100px; height: 100px">
+                                            </div>
+                                            <div class="car-details" style="text-align: center">
+                                                <div class="ui-g row">
+                                                    <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Rating: </div>
+                                                    <div class="ui-g-10 ui-sm-6" style="text-align: left">
+                                                        <div class="row">
+                                                            <div *ngIf="rater.rate >= 1; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            <div *ngIf="rater.rate >= 2; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            <div *ngIf="rater.rate >= 3; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            <div *ngIf="rater.rate >= 4; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            <div *ngIf="rater.rate == 5; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            
+                                                            <ng-template #templateName>
+                                                                <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </ng-template>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Rater Username: </div>
+                                                    <div class="ui-g-10 ui-sm-6" style="text-align: left">
+                                                        <b>{{rater.raterUsername}}</b>
+                                                    </div>
+                            
+                                                    <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Date: </div>
+                                                    <div class="ui-g-10 ui-sm-6" style="text-align: left">
+                                                        <b>{{rater.dateCreated}}</b>
+                                                    </div>
+                            
+                                                    <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Comment: </div>
+                                                    <div class="ui-g-10 ui-sm-6" style="text-align: left">
+                                                        <b>{{rater.comment}}</b>
+                                                    </div>
+                            
+                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    
+                                </p-dataScroller>
+                      </div>
+
+                      <div class="col-xs-12 col-md-6" style="border: 1px 1px 1px 1px solid black">
+                            <div *ngIf="!hasGivenRatings" style="text-align:center" class="alert alert-warning">
+                                    <h3><strong>No Ratings Given found</strong></h3>
+                                    <br>
+                                    <h4>You have not given any ratings</h4>
+                                  </div>
+                            <div class="alert alert-info">
+                                    <h3 style="text-align: center; color: black"><strong>Ratings Given</strong></h3>
+                                  </div>
+                            <p-dataScroller  [value]="ratingsGiven" [rows]="5" [inline]="true" scrollHeight="500px">
+                                
+                                    <ng-template let-rater pTemplate="item">
+                                        <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+
+                                            <div class="car-details">
+                                                <div class="ui-g row">
+                                                    <div class="ui-g-2 ui-sm-6 ui-xs-12" style="font-weight: bold">Rating: </div>
+                                                    <div class="ui-g-10 ui-sm-6" style="text-align: left">
+                                                        <div class="row">
+                                                            <div *ngIf="rater.rate >= 1; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            <div *ngIf="rater.rate >= 2; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            <div *ngIf="rater.rate >= 3; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            <div *ngIf="rater.rate >= 4; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            <div *ngIf="rater.rate == 5; else templateName">
+                                                                <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </div>
+                                                            
+                                                            <ng-template #templateName>
+                                                                <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                                                    <span class="fa fa-star" aria-hidden="true"></span>
+                                                                  </button>
+                                                            </ng-template>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ui-g-2 ui-sm-6" style="font-weight: bold">To: </div>
+                                                    <div class="ui-g-10 ui-sm-6" style="text-align: left">
+                                                        <b>{{rater.for}}</b>
+                                                    </div>
+                            
+                                                    <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Date: </div>
+                                                    <div class="ui-g-10 ui-sm-6" style="text-align: left">
+                                                        <b>{{rater.dateCreated}}</b>
+                                                    </div>
+                            
+                                                    <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Comment: </div>
+                                                    <div class="ui-g-10 ui-sm-6" style="text-align: left">
+                                                        <b>{{rater.comment}}</b>
+                                                    </div>
+                            
+                            
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    
+                                </p-dataScroller>
+                      </div>
+              </div>
+             
+              
+              
+            <!-- <div class="col-xs-12 col-md-12">
+
+
+              <!--  
+              <p-dataView #dv [value]="ratings" *ngIf="hasRatings"  [paginator]="true" [rows]="10" paginatorPosition="both" filterBy="expertises" [sortField]="sortField"
+              [sortOrder]="sortOrder">
+              <p-header style="max-height: 50px">
+                  <div class="ui-helper-clearfix">
+                      <div class="ui-g">
+                          <div class="ui-g-12 ui-md-4">
+                              <p-dropdown [options]="sortOptions" [(ngModel)]="sortKey" placeholder="Sort By" (onChange)="onSortChange($event)" [autoWidth]="false"
+                                  [style]="{'min-width':'15em'}"></p-dropdown>
+                          </div>
+                      </div>
+                      
+                  </div>
+              </p-header>
+              <ng-template let-user pTemplate="listItem">
+                  <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+                      <div class="ui-g-12 ui-md-3" style="text-align:center">
+                          <img src="{{user.profilePicLoc}}" style="width: 100px; height: 100px">
+                      </div>
+                      <div class="ui-g-10 ui-md-6 car-details">
+                          <div class="ui-g">
+                              <div class="ui-g-2 ui-sm-6">Username: </div>
+                              <div class="ui-g-10 ui-sm-6">
+                                  <b>{{user.username}}</b>
+                              </div>
+  
+                              <div class="ui-g-2 ui-sm-6">First Name: </div>
+                              <div class="ui-g-10 ui-sm-6">
+                                  <b>{{user.firstName}}</b>
+                              </div>
+  
+                              <div class="ui-g-2 ui-sm-6">Last Name: </div>
+                              <div class="ui-g-10 ui-sm-6">
+                                  <b>{{user.lastName}}</b>
+                              </div>
+  
+                              <div class="ui-g-2 ui-sm-6">Title: </div>
+                              <div class="ui-g-10 ui-sm-6">
+                                  <b>{{user.title}}</b>
+                              </div>
+  
+  
+                          </div>
+                      </div>
+                  </div>
+              </ng-template>
+          </p-dataView>
+
+        </div> -->
+
+
+<!-- 
+     <p-dataScroller *ngIf="hasRatings" [value]="ratings" [rows]="10" [inline]="true" scrollHeight="500px">
+        <p-header>
+            <h4>Recieved and Given Ratings</h4>
+        </p-header>
+        <ng-template let-rater pTemplate="item">
+            <div class="ui-g" style="padding: 2em;border-bottom: 1px solid #d9d9d9">
+                <div class="ui-g-12 ui-md-3" style="text-align:center">
+                    <img src="{{rater.raterProfile}}" style="width: 100px; height: 100px">
+                </div>
+                <div class="ui-g-10 ui-md-6 car-details">
+                    <div class="ui-g">
+                        <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Rating: </div>
+                        <div class="ui-g-10 ui-sm-6">
+                            <div class="row">
+                                <div *ngIf="rater.rate >= 1; else templateName">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <span class="fa fa-star" aria-hidden="true"></span>
+                                      </button>
+                                </div>
+                                <div *ngIf="rater.rate >= 2; else templateName">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <span class="fa fa-star" aria-hidden="true"></span>
+                                      </button>
+                                </div>
+                                <div *ngIf="rater.rate >= 3; else templateName">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <span class="fa fa-star" aria-hidden="true"></span>
+                                      </button>
+                                </div>
+                                <div *ngIf="rater.rate >= 4; else templateName">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <span class="fa fa-star" aria-hidden="true"></span>
+                                      </button>
+                                </div>
+                                <div *ngIf="rater.rate == 5; else templateName">
+                                    <button type="button" class="btn btn-warning btn-sm" aria-label="Left Align">
+                                        <span class="fa fa-star" aria-hidden="true"></span>
+                                      </button>
+                                </div>
+                                
+                                <ng-template #templateName>
+                                    <button type="button" class="btn btn-grey btn-sm" aria-label="Left Align">
+                                        <span class="fa fa-star" aria-hidden="true"></span>
+                                      </button>
+                                </ng-template>
+                            </div>
+                        </div>
+                        <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Username: </div>
+                        <div class="ui-g-10 ui-sm-6">
+                            <b>{{rater.raterUsername}}</b>
+                        </div>
+
+                        <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Date: </div>
+                        <div class="ui-g-10 ui-sm-6">
+                            <b>{{rater.dateCreated}}</b>
+                        </div>
+
+                        <div class="ui-g-2 ui-sm-6" style="font-weight: bold">Comment: </div>
+                        <div class="ui-g-10 ui-sm-6">
+                            <b>{{rater.comment}}</b>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+        
+    </p-dataScroller> -->
+      </div> 
+      

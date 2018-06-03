@@ -1,0 +1,68 @@
+<nav class="navbar navbar-expand-lg fixed-top navbar-transparent"  color-on-scroll="50">
+    <div class="container">
+        <div class="navbar-translate">
+            <a class="navbar-brand" style="color:#2673b7" routerLink="/home">Mentors' Lab</a>
+            <button class="navbar-toggler navbar-burger" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation" (click)="sidebarToggle()">
+                    <span class="navbar-toggler-bar"></span>
+                    <span class="navbar-toggler-bar"></span>
+                    <span class="navbar-toggler-bar"></span>
+                </button>
+        </div>
+        <div class="collapse navbar-collapse"  id="navbarToggler">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item"  *ngIf="!isDocumentation()">
+                        <a  style="color:#2673b7"class="navbar-brand" routerLink="/search">Find a Start-Up</a>
+                </li>
+                <li class="nav-item"  *ngIf="!isDocumentation()">
+                                <a  style="color:#2673b7"class="navbar-brand" routerLink="/sign-up-mentor">Register as Mentor</a>
+                        </li>
+                <li class="nav-item" *ngIf="!isDocumentation()">
+                        <a style="color:#2673b7" class="navbar-brand" routerLink="/sign-up-startup">Showcase your Start-Up</a>
+                </li>
+                <li class="nav-item" *ngIf="!isDocumentation()">
+                        <div *ngIf="loginToken">
+                                <p-menu #menu popup="popup" [model]="items"></p-menu>
+                                <div class="btn btn-outline-danger btn-round"><a style="color: crimson" class="navbar-brand" class="" (click)="menu.toggle($event)">{{username}}</a></div>
+                        </div>
+                        <div *ngIf="!loginToken">
+                                <a style="color: crimson" (click)="showDialog()" class="navbar-brand">Login</a>
+                        </div>
+                      
+                </li>
+           
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<p-dialog header="Login" [(visible)]="display" modal="modal" [responsive]="true" [width]="350" [minWidth]="200" [minY]="70">
+                <p-messages [(value)]="msgss"></p-messages>        
+        <table class="table table-user-information">
+                                <tbody>
+                                <tr>
+                                        <td>
+                                                <p>E-mail:</p>
+                                        </td>
+                                        <td>
+                                                <input type="text" [(ngModel)]="Email" class="form-control" placeholder="e-mail">
+                                        </td>
+                                </tr>
+                                <tr>
+                                        <td>
+                                                <p>Password:</p>
+                                        </td>
+                                        <td>
+                                                        <input type="password" [(ngModel)]="Password"/>
+                                        </td>
+                                </tr>
+                            
+                        
+                                </tbody>
+                              </table>
+                              <p align="center"><a>Forgot your password?</a></p>
+                    <p-footer>
+                                <a class="btn btn-warning"(click)="login($event)">Login</a>
+                    </p-footer>
+            </p-dialog>
+            
+            <p-growl [(value)]="msgs"></p-growl>

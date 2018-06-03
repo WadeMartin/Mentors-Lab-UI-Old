@@ -1,0 +1,3 @@
+<app-navbar (selectedPage)="onNavigate($event)" ></app-navbar>
+<router-outlet (activate)="recheckLogin()"></router-outlet>
+<app-footer *ngIf="removeFooter()"></app-footer>

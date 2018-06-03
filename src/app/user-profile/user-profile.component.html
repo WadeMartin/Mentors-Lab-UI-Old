@@ -1,0 +1,85 @@
+
+<app-sidebar></app-sidebar>
+<br />
+<br />
+<div *ngIf="!doneLoading"  align="center">
+    <p-progressSpinner></p-progressSpinner>
+    <h3>Processing Action ...</h3>
+</div>
+<div *ngIf="!updateLoading"  align="center">
+    <p-progressSpinner></p-progressSpinner>
+    <h3>Processing Action ...</h3>
+</div>
+
+  <br /><input type="file" 
+  #file 
+  [multiple]="(maxFiles > 1)"
+  (change) = "onFileChange($event)"
+  style="display:none" />
+
+  <input type="file" 
+  #doc 
+  [multiple]="(maxFiles > 1)"
+  (change) = "onDocChange($event)"
+  style="display:none" />
+
+
+  <div *ngIf="doneLoading" class="row">
+      <div class="col-md-12 col-lg-12" align="center">
+        <h3 align="center" style="color:blue" >User Details:</h3>
+        <br />
+        <div class="card-avatar"><a href="javascript:void(0)" (click)="file.click()" ><img alt="User Pic" [src]="imgURL" width="150px" height="150px" class="img-circle img-responsive"> Click on the image to add a Logo</a></div>
+      </div>
+    </div>
+  <div *ngIf="doneLoading" class="row">
+      <div class="col-md-2 col-lg-2 " align="center"></div>
+  
+      <div class=" col-md-9 col-lg-9 ">
+        <table class="table table-user-information">
+          <tbody>
+          <tr>
+            <td><h5>First Name:</h5></td>
+            <td><input type="text" [(ngModel)]="firstName" class="form-control" placeholder="Default"></td>
+          </tr>
+          <tr>
+                  <td><h5>Last Name:</h5></td>
+                  <td><input type="text" [(ngModel)]="lastName" class="form-control" placeholder="Default"></td>
+                </tr>
+          <tr>
+            <td><h5>Title:</h5></td>
+            <td><input type="text" [(ngModel)]="title" class="form-control" placeholder="Default"></td>
+          </tr>
+
+          
+          <tr>
+            <td><h5>Current Employer:</h5></td>
+            <td><input type="text" [(ngModel)]="currentEmployer" class="form-control" placeholder="Default"></td>
+          </tr>
+          <tr>
+            <td><h5>Expertise:</h5></td>
+            <td><ng-multiselect-dropdown
+              [placeholder]="'Choose Expertise'"
+              [data]="dropdownList"
+              [(ngModel)]="selectedItems"
+              [settings]="dropdownSettings"
+          >
+          </ng-multiselect-dropdown></td>
+          </tr>
+          <tr>
+            <td><h5>Describe yourself:</h5></td>
+            <td> <textarea [(ngModel)]="Comments" name="Comments"  placeholder="Description" style="width: 800px; height: 150px"></textarea></td>
+          </tr>
+          <tr>
+              <td><h5>Upload CV:</h5></td>
+              <td><div><button href="javascript:void(0)" (click)="doc.click()" class="btn btn-warning" >Upload CV document</button>{{docUploaded}}</div></td>
+            </tr>
+  <br />  
+          </tbody>
+        </table>
+        <div align="center">
+              <a class="btn btn-primary"(click)="UpdateProfile($event)">Update user details</a>
+        </div>
+      </div>
+    </div>
+
+    <p-growl class="pull-right" [(value)]="msgs"></p-growl>

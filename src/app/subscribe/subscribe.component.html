@@ -1,0 +1,54 @@
+<app-sidebar></app-sidebar>
+<br />
+<br />
+
+<div class="container" *ngIf="!doneLoading"  align="center">
+    <p-progressSpinner></p-progressSpinner>
+    <h3>Loading Data ...</h3>
+</div>
+
+
+<div class="row"  *ngIf="doneLoading">
+  <div class="container">
+      <p-messages [(value)]="checkMsg"></p-messages> 
+    <div align="center" class="jumbotron">
+      <br>
+      <h2>Manage your subscription</h2>
+      <p>Current subscription is: {{subscribe}}</p>
+      <br>
+      <div class="row">
+        <div class="col-md-4">
+            <button pButton type="button" [(disabled)]="btnStarter" style="height: 50px" label="Starter Plan ($5)" icon="fa-cart" (click)="openDialog('firstplan')"></button>
+        </div>
+        <div class="col-md-4">
+            <button pButton type="button" [(disabled)]="btnSeed" class="ui-button-warning" style="height: 50px" label="Seed Plan ($25)" icon="fa-cart" (click)="openDialog('secondplan')"></button>
+        </div>
+        <div class="col-md-4">
+            <button pButton type="button" [(disabled)]="btnGrow" class="ui-button-success" style="height: 50px" label="Growing Plan ($50)" icon="fa-cart" (click)="openDialog('thirdplan')"></button>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <p>Use a coupon code:</p>
+        <input type="text" width="60%" [(ngModel)]="couponCode" class="form-control" placeholder="Default">
+        <div class="row">
+
+                <button pButton type="button" class="ui-button-success" disabled style="height: 50px" label="Submit Code" icon="fa-search" (click)="openDialog('thirdplan')"></button>
+          </div>
+      </div> 
+     
+    </div>
+  </div>
+  
+</div>
+
+<p-dialog header="Changing Subscription" [(visible)]="acceptDialog" modal="modal" [responsive]="true" [width]="600" [minWidth]="200" [minY]="70">
+    <p-messages [(value)]="checkBoxMsg"></p-messages> 
+    <p>You are changing your subscription from {{subscribe}} to -> {{toSubscribe}}</p>   
+    <hr>
+    <p-checkbox [(ngModel)]="agreementAccepted" binary="true"></p-checkbox><span> I accept the changes that will be made to my account</span>
+        <p-footer>
+            <button type="button" pButton icon="fa-check" (click)="openCheckout()" label="Submit Changes"></button>
+        </p-footer>
+</p-dialog>
+

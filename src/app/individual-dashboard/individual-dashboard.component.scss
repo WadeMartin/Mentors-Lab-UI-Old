@@ -1,0 +1,30 @@
+body{
+    background-color: grey
+}
+.p-scrollPanel > .list-group
+{
+    margin-bottom: 0;
+}
+.p-scrollPanel > .list-group .list-group-item
+{
+    border-width: 1px 0;
+}
+.p-scrollPanel > .list-group .list-group-item:first-child
+{
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+}
+.p-scrollPanel > .list-group .list-group-item:last-child
+{
+    border-bottom: 0;
+}
+.p-scrollPanel-heading + .list-group .list-group-item:first-child
+{
+    border-top-width: 0;
+}
+.p-scrollPanel a.list-group-item.active:hover, a.list-group-item.active:focus
+{
+    color: #000;
+    background-color: #DDD;
+    border-color: #DDD;
+}

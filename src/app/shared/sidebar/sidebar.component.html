@@ -1,0 +1,42 @@
+<div class="wrapper">
+    <div class="section section-dark">
+      </div>
+  </div>
+  <div *ngIf="!isMentor" class="wrapper">
+    <div class="left">
+        <div class="item">
+        <span class="glyphicon glyphicon-dashboard"></span>
+        <a  routerLink="/dashboard" >Dashboard</a>
+        </div>
+        <div class="item active">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <a  routerLink="/startup-profile-edit" >Startup Information</a></div>
+        <div class="item">
+        <span class="glyphicon glyphicon-star"></span>
+        <a  routerLink="/rating-review" > Rating's view</a></div>
+        <div class="item">
+        <span class="glyphicon glyphicon-th-list"></span>
+        <a  routerLink="/requesting-members" > Requesting Members</a></div> 
+        <div class="item">
+        <span class="glyphicon glyphicon-list-alt"></span>
+        <a  routerLink="/manage-members" >Members Management</a></div>
+        <div class="item">
+          <span class="glyphicon glyphicon-shopping-cart"></span>
+          <a  routerLink="/subscribe" >Subscription Management</a></div>
+        </div>
+        
+  </div>
+
+  <div *ngIf="isMentor" class="wrapper">
+    <div class="left">
+        <div class="item active">
+            <span class="glyphicon glyphicon-dashboard"></span>
+            <a  routerLink="/individual-dashboard" >Dashboard</a>
+            </div>
+        <div class="item">
+        <span class="glyphicon glyphicon-pencil"></span>
+        <a  routerLink="/user-profile-edit" >User Profile</a></div>
+  </div>
+  </div>
+   
+  
